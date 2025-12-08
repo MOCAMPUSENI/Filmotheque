@@ -5,6 +5,7 @@ public class Avis {
     private int note;
     private String commentaire;
     private int membreId;
+    private int filmId;
 
     public Avis(int id, int note, String commentaire, int membreId) {
         this.id = id;
@@ -13,10 +14,11 @@ public class Avis {
         this.membreId = membreId;
     }
 
-    public Avis(int note, String commentaire, int membreId) {
+    public Avis(int note, String commentaire, int membreId, int filmId) {
         this.note = note;
         this.commentaire = commentaire;
         this.membreId = membreId;
+        this.filmId = filmId;
     }
 
     public Avis() {}
@@ -52,7 +54,15 @@ public class Avis {
     public void setMembreId(int membreId) {
         this.membreId = membreId;
     }
+    
+    public int getFilmId() {
+        return filmId;
+    }
 
+    public void setFilmId(int filmId) {
+        this.filmId = filmId;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
