@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/tp-contexte.css}">
+    <link rel="stylesheet" th:href="@{/css/demo-form.css}">
+</head>
+<body>
+    <div data-th-replace="~{fragments/header :: entete}"></div>
+
+    <main >
+        <form th:action="@{/films/creer}" method="post" th:object="${filmDTO}">
+            <h1>Création d'un film [En cours de construction]</h1>
+            <div>
+                <label for="titre">Titre :</label>
+                <input type="text" id="titre" th:field="*{titre}" />
+                <div th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}" style="color: red;"></div>
+            </div>
+            <div>
+                <label for="anne">Anne :</label>
+                <input type="text" id="anne" th:field="*{anne}" />
+                <div th:if="${#fields.hasErrors('anne')}" th:errors="*{anne}" style="color: red;"></div>
+            </div>
+            <div>
+                <label for="duree">Duree :</label>
+                <input type="text" id="duree" th:field="*{duree}" />
+                <div th:if="${#fields.hasErrors('duree')}" th:errors="*{duree}" style="color: red;"></div>
+            </div>
+            <div>
+                <label for="synopsis">Synopsis :</label>
+                <input type="text" id="synopsis" th:field="*{synopsis}" />
+                <div th:if="${#fields.hasErrors('synopsis')}" th:errors="*{synopsis}" style="color: red;"></div>
+            </div>
+            <div>
+                <label for="genreId">Genre :</label>
+                <select name="genreId" id="genreId" th:field="*{genreId}">
+                    <option th:each="g : ${@filmServiceImpl.findAllGenres()}" th:text="${g.title}" th:value="${g.id}"></option>
+                </select>
+                <div th:if="${#fields.hasErrors('genreId')}" th:errors="*{genreId}" style="color: red;"></div>
+            </div>
+            <div>
+                <label for="realisateurId">Réalisateur :</label>
+                <select name="realisateurId" id="realisateurId">
+                    <option th:each="p : ${@participantServiceImpl.getAllParticipants()}" th:text="${p.prenom + ' ' + p.nom}" th:value="${p.id}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="acteursId">Acteurs :</label>
+                <select name="acteursId" id="acteursId" th:field="*{acteursId}" multiple>
+                    <option th:each="p : ${@participantServiceImpl.getAllParticipants()}" th:text="${p.prenom + ' ' + p.nom}" th:value="${p.id}"></option>
+                </select>
+                <div th:if="${#fields.hasErrors('acteursId')}" th:errors="*{acteursId}" style="color: red;"></div>
+            </div>
+            <button type="submit">Enregistrer</button>
+        </form>
+    </main>
+
+</body>
+</html>

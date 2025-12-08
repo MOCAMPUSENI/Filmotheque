@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Les films</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/demo-table.css}">
+    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
+</head>
+<body>
+    <div data-th-replace="~{fragments/header :: entete}"></div>
+    <main>
+        <ul>
+            <li th:each="g : ${genres}">
+                <form action="/genre/modifier" method="post">
+                    <label for="title">Libelle : </label>
+                    <label th:text="${g.title}"></label>
+                    <input type="text" name="title" id="title">
+                    <input type="hidden" name="id" id="id" th:value="${g.id}">
+                    <input type="submit" th:value="Validez">
+                </form>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>

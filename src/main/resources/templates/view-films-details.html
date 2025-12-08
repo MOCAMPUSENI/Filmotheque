@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail de film</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/demo-form.css}">
+    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
+
+</head>
+<body>
+    <div data-th-replace="~{fragments/header :: entete}"></div>
+
+    <main>
+        <body>
+            <form action="/formateurs/detail" method="post">
+                <h1>Details du film</h1>
+                <ul class="flex-outer">
+                    <li><label for="inputGenre">Genre : </label><input id="inputGenre" type="text" name="genre" th:value="${@filmServiceImpl.findGenreById(film.genreId).title}" disabled></li>
+                    <li><label for="inputAnnee">Année : </label><input id="inputAnnee" type="text" name="annee" th:value="${film?.anne}" disabled></li>
+                    <li><label for="inputTitre">Titre : </label><input id="inputTitre" type="text" name="titre" th:value="${film?.titre}" disabled></li>
+                    <li><label for="inputRealisateur">Realisateur : </label><input id="inputRealisateur" type="text" name="realisateur" th:value="${@participantServiceImpl.getParticipantById(film.realisateurId).toString()}" disabled></li>
+                    <li><label for="inputDuree">Durée : </label><input id="inputDuree" type="text" name="duree" th:value="${film?.duree}" disabled></li>
+                    <li th:if="${film.id}"><label>Acteur(s) : </label>
+                        <select multiple disabled>
+                                <option th:each="acteur : ${@participantServiceImpl.getAllParticipantsByFilmId(film.id)}" th:text="${'- ' + acteur.prenom + ' ' + acteur.nom}"></option>
+                        </select>
+                    </li>
+                    <li><label>Synopsis : </label><textarea readonly th:text="${film.synopsis}" disabled></textarea></li>
+                    <th:block th:if="${film.avis}">
+                        <label>Avis :</label>
+                        <ul th:each="a : ${film.avis}" class="flex-outer">
+                            <li>
+                                <label for="avis" th:text="'Avis de ' + ${a.membre.prenom + ' ' + a.membre.nom} + ' : '"></label>
+                                <input id="avis" type="text" th:value="${a.commentaire}" disabled>
+                            </li>
+                            <li>
+                                <label for="avisNote">Note :</label>
+                                <input id="avisNote" type="number" th:value="${a.note}" disabled>
+                            </li>
+                        </ul>
+                    </th:block>
+                </ul>
+            </form>
+            <form th:action="@{/avis/creer(idFilm=${film.id})}" method="post">
+                <h1>Laissez un avis sur le film !</h1>
+                <ul class="flex-outer">
+                    <li>
+                        <label for="emailMembre">Qui écrit ce commentaire ?</label>
+                        <select id="emailMembre" name="emailMembre">
+                            <option th:each="m : ${membres}" th:text="${m.prenom + ' ' + m.nom}" th:value="${m.pseudo}"></option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="commentaire">Commentaire : </label>
+                        <input type="text" name="commentaire" id="commentaire">
+                    </li>
+                    <li>
+                        <label for="note">Note : </label>
+                        <input type="number" name="note" id="note">
+                    </li>
+                    <li>
+                        <input type="submit" th:value="Validez">
+                    </li>
+                </ul>
+            </form>
+        </body>
+    </main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Les films</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/demo-table.css}">
+    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
+
+</head>
+<body>
+    <div data-th-replace="~{fragments/header :: entete}"></div>
+
+<main>
+<!--        <h1>Les films de L'ENI</h1>-->
+
+        <h1 class="center-section">Voici la bibliothèque des Films de ENI Ecole</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Genre</th>
+                <th>Année</th>
+                <th>Titre</th>
+                <th>Réalisateur</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="film : ${@filmServiceImpl.consulterFilms()}" class="formateur">
+                <td th:if="${film.genreId}" th:text="${@filmServiceImpl.findGenreById(film.genreId).title}"></td>
+                <td th:if="${film.anne}" th:text="${film.anne}"></td>
+                <td th:if="${film.titre}" th:text="${film.titre}"></td>
+                <td th:if="${film.realisateurId}" th:text="${@participantServiceImpl.getParticipantById(film.realisateurId).toString()}"></td>
+                <td><a th:href="@{/films/detail(id=${film.id})}"> Details </a></td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<header data-th-fragment="entete">
+    <nav>
+        <ul>
+            <li><h1><a th:href="@{/}">Filmothèque</a></h1></li>
+            <li th:if="${membre != null}"><h1 th:text="${membre.prenom}"></h1></li>
+            <li><h2><a th:href="@{/films}">Films</a></h2></li>
+            <li><h2><a th:href="@{/films/creer}">Creer</a></h2></li>
+            <li><h2><a th:href="@{/contexte}">Contexte</a></h2></li>
+            <li><h2><a th:href="@{/genre/creer}">Creer genre</a></h2></li>
+        </ul>
+    </nav>
+</header>

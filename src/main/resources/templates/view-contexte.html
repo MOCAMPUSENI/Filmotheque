@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/tp-contexte.css}">
+    <link rel="stylesheet" th:href="@{/css/demo-form.css}">
+</head>
+<body>
+    <div data-th-replace="~{fragments/header :: entete}"></div>
+    <h1>Contexte</h1>
+    <div th:if="${membre != null}">
+        <h1 th:text="${membre.prenom}"></h1>
+        <a th:href="@{/contexte}">Deconnection</a>
+    </div>
+    <main th:if="${membre == null}">
+        <a th:each="m : ${listMembres}" th:text="${m.prenom}" th:href="@{/contexte/session(email=${m.pseudo})}"></a>
+    </main>
+</body>
+</html>
