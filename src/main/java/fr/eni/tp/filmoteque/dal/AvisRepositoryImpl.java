@@ -44,6 +44,7 @@ public class AvisRepositoryImpl implements AvisRepository {
             avis.setNote(rs.getInt("note"));
             avis.setCommentaire(rs.getString("commentaire"));
             avis.setMembreId(rs.getInt("membreId"));
+            avis.setFilmId(rs.getInt("filmId"));
             return avis;
         }
     }
