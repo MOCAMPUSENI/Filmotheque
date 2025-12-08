@@ -1,7 +1,5 @@
 package fr.eni.tp.filmoteque.bo;
 
-import java.util.Objects;
-
 public class Avis {
     private int id;
     private int note;
