@@ -2,7 +2,10 @@ package fr.eni.tp.filmoteque.dal;
 
 import fr.eni.tp.filmoteque.bo.Membre;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MembresRepositoryImpl implements MembresRepository {
@@ -13,11 +16,25 @@ public class MembresRepositoryImpl implements MembresRepository {
     }
     @Override
     public List<Membre> findAllMembres() {
-        return List.of();
+        String sql = "SELECT * FROM membres";
+        return jdbcTemplate.query(sql, new MembreRowMapper());
     }
     
     @Override
     public Membre findMembreById(int id) {
-        return null;
+        String sql = "SELECT * FROM membres WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new MembreRowMapper(), id);
+    }
+    
+    static class MembreRowMapper implements RowMapper<Membre> {
+        public Membre mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Membre membre = new Membre();
+            membre.setId(rs.getInt("id"));
+            membre.setPrenom(rs.getString("prenom"));
+            membre.setNom(rs.getString("nom"));
+            membre.setPseudo(rs.getString("pseudo"));
+            membre.setAdmin(rs.getBoolean("admin"));
+            return membre;
+        }
     }
 }
