@@ -3,7 +3,7 @@ package fr.eni.tp.filmoteque.bo;
 public class Participant extends Personne {
     private static final long serialVersionUID = 1L;
 
-    public Participant(long id, String nom, String prenom) {
+    public Participant(int id, String nom, String prenom) {
         super(id, nom, prenom);
     }
 

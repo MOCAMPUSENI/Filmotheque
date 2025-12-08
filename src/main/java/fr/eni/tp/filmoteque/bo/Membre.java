@@ -12,7 +12,7 @@ public class Membre extends Personne {
         super();
     }
 
-    public Membre(long id, String nom, String prenom, String pseudo, boolean admin) {
+    public Membre(int id, String nom, String prenom, String pseudo, boolean admin) {
         super(id, nom, prenom);
         this.pseudo = pseudo;
         this.admin = admin;
