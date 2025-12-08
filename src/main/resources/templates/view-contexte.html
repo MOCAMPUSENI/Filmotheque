@@ -15,7 +15,7 @@
         <a th:href="@{/contexte}">Deconnection</a>
     </div>
     <main th:if="${membre == null}">
-        <a th:each="m : ${listMembres}" th:text="${m.prenom}" th:href="@{/contexte/session(email=${m.pseudo})}"></a>
+        <a th:each="m : ${listMembres}" th:text="${m.prenom}" th:href="@{/contexte/session(id=${m.id})}"></a>
     </main>
 </body>
 </html>
