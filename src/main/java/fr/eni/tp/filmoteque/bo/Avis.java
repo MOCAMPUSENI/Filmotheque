@@ -3,31 +3,31 @@ package fr.eni.tp.filmoteque.bo;
 import java.util.Objects;
 
 public class Avis {
-    private long id;
+    private int id;
     private int note;
     private String commentaire;
-    private Membre membre;
+    private int membreId;
 
-    public Avis(long id, int note, String commentaire, Membre membre) {
+    public Avis(int id, int note, String commentaire, int membreId) {
         this.id = id;
         this.note = note;
         this.commentaire = commentaire;
-        this.membre = membre;
+        this.membreId = membreId;
     }
 
-    public Avis(int note, String commentaire, Membre membre) {
+    public Avis(int note, String commentaire, int membreId) {
         this.note = note;
         this.commentaire = commentaire;
-        this.membre = membre;
+        this.membreId = membreId;
     }
 
     public Avis() {}
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -47,17 +47,12 @@ public class Avis {
         this.commentaire = commentaire;
     }
 
-    public Membre getMembre() {
-        return membre;
+    public int getMembreId() {
+        return membreId;
     }
 
-    public void setMembre(Membre membre) {
-        this.membre = membre;
-    }
-
-    @Override
-    public String toString() {
-        return "Avis de " + membre.getPrenom() + " " +membre.getNom() + " (" + id + ") " + membre.toString() + " - " + "note=" + note + ", commentaire=" + commentaire;
+    public void setMembreId(int membreId) {
+        this.membreId = membreId;
     }
 
     @Override
