@@ -17,19 +17,23 @@ public class AvisRepositoryImpl implements AvisRepository {
     }
     
     public List<Avis> findAllAvis() {
-        return List.of();
+        String sql = "select * from avis";
+        return jdbcTemplate.query(sql, new AvisRowMapper());
     }
     
     public Avis findAvisById(int id) {
-        return null;
+        String sql = "select * from avis where id = ?";
+        return jdbcTemplate.queryForObject(sql, new AvisRowMapper(), id);
     }
     
     public List<Avis> findAllAvisByMembreId(int membreId) {
-        return List.of();
+        String  sql = "select * from avis where membreId = ?";
+        return jdbcTemplate.query(sql, new AvisRowMapper(), membreId);
     }
     
     public List<Avis> findAllAvisByFilmId(int filmId) {
-        return List.of();
+        String  sql = "select * from avis where filmId = ?";
+        return jdbcTemplate.query(sql, new AvisRowMapper(), filmId);
     }
     
     static class AvisRowMapper implements RowMapper<Avis> {
