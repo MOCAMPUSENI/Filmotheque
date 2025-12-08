@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS acteurs;
+DROP TABLE IF EXISTS avis;
+DROP TABLE IF EXISTS membres;
 DROP TABLE IF EXISTS films;
 DROP TABLE IF EXISTS participants;
 DROP TABLE IF EXISTS genres;
@@ -39,3 +41,22 @@ alter table acteurs add primary key (filmId, participantId);
 
 alter table acteurs add constraint fk_acteurs_filmId foreign key(filmId)   references films(id);
 alter table acteurs add constraint fk_acteurs_participantId foreign key (participantId)   references participants(id);
+
+create table membres(
+    id INT not null primary key IDENTITY(1,1),
+    nom NVARCHAR (100) NOT NULL,
+    prenom NVARCHAR (100) NOT NULL,
+    pseudo NVARCHAR(100) NOT NULL,
+    admin BIT NOT NULL
+);
+
+create table avis(
+    id INT not null primary key IDENTITY(1,1),
+    note INT NOT NULL,
+    commentaire NVARCHAR(100) NOT NULL,
+    membreId INT NOT NULL,
+    filmId INT NOT NULL
+);
+
+alter table avis add constraint fk_avis_membreId foreign key(membreId)   references membres(id);
+alter table avis add constraint fk_avis_filmId foreign key(filmId)   references films(id);
