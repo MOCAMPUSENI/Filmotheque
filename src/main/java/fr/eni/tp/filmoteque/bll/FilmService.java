@@ -10,8 +10,6 @@ import java.util.List;
 public interface FilmService {
     List<FilmDTO> consulterFilms();
     FilmDTO consulterFilmParId(int id);
-    List<Participant> consulterParticipants();
-    // Participant consulterParticipantParId(int id);
     int creerFilm(FilmDTO film);
     
     // GenreService
