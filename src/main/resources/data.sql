@@ -39,7 +39,7 @@ VALUES (
            2010,
            148,
            'Un voleur infiltre les rêves pour dérober des secrets.',
-           2,  -- Science-Fiction
+           1,  -- Science-Fiction
            1   -- Christopher Nolan
        );
 
