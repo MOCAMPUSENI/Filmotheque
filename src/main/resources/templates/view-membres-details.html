@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail de film</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/demo-form.css}">
+    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
+
+</head>
+<body>
+<div data-th-replace="~{fragments/header :: entete}"></div>
+
+<main>
+    <body>
+    <form action="/membres/detail" method="post">
+        <h1>Details du membre</h1>
+        <ul class="flex-outer">
+            <li><label for="inputPseudo">Pseudo : </label><input id="inputPseudo" type="text" name="pseudo" th:value="${membre?.pseudo}" disabled></li>
+            <li><label for="inputPrenom">Prenom : </label><input id="inputPrenom" type="text" name="prenom" th:value="${membre?.prenom}" disabled></li>
+            <li><label for="inputNom">Nom : </label><input id="inputNom" type="text" name="nom" th:value="${membre?.nom}" disabled></li>
+            <label>Avis :</label>
+            <ul th:each="avis : ${@avisServiceImpl.findAllAvisByMembreId(membre.id)}" class="flex-outer">
+                <li>
+                    <label for="nom">Nom du film : </label>
+                    <input id="nom" type="text" th:value="${@filmServiceImpl.consulterFilmParId(avis.filmId).titre}" disabled>
+                </li>
+                <li>
+                    <label for="avis">Commentaire : </label>
+                    <input id="avis" type="text" th:value="${avis.commentaire}" disabled>
+                </li>
+                <li>
+                    <label for="avisNote">Note :</label>
+                    <input id="avisNote" type="number" th:value="${avis.note}" disabled>
+                </li>
+            </ul>
+        </ul>
+    </form>
+    </body>
+</main>
+</body>
+</html>
