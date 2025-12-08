@@ -2,15 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Première page</title>
-    <link rel="stylesheet" th:href="@{/css/general.css}">
-    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
+    <title>Accueil - Filmothèque ENI</title>
 
+    <link rel="stylesheet" th:href="@{/css/style-dark-cinema.css}">
+    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
 </head>
+
 <body>
-    <div data-th-replace="~{fragments/header :: entete}"></div>
-    <main class="center-main">
-        <h1 class="center-section">Voici la bibliothèque des Films de ENI Ecole</h1>
-    </main>
+
+<div data-th-replace="~{fragments/header :: entete}"></div>
+
+<main class="center-main home-hero">
+
+    <!-- Bandeau d’accueil -->
+    <section class="home-header">
+        <h1 class="home-title">Bienvenue dans la Filmothèque de l’ENI</h1>
+        <p class="home-subtitle">Votre catalogue cinématographique — Réalisateurs, acteurs, avis, et plus encore.</p>
+
+        <a href="/films" class="home-main-btn">Voir les films</a>
+    </section>
+
+    <!-- Section présentation -->
+    <section class="home-presentation">
+        <h2>🎬 Découvrez un univers de cinéma</h2>
+        <p>
+            Parcourez les films réalisés par les étudiants de l’ENI,
+            explorez les genres, découvrez les réalisateurs, et trouvez votre prochain coup de cœur.
+        </p>
+    </section>
+
+    <!-- Section genres -->
+    <section class="home-genres">
+        <h2>📚 Genres disponibles</h2>
+
+        <div class="genre-list">
+            <div class="genre-card" th:each="g : ${@filmServiceImpl.findAllGenres()}">
+                <p th:text="${g.title}"></p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
 </body>
 </html>

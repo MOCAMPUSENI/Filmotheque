@@ -2,20 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/general.css}">
-    <link rel="stylesheet" th:href="@{/css/tp-contexte.css}">
-    <link rel="stylesheet" th:href="@{/css/demo-form.css}">
+    <title>Context</title>
+    <link rel="stylesheet" th:href="@{/css/style-dark-cinema.css}">
 </head>
+
 <body>
-    <div data-th-replace="~{fragments/header :: entete}"></div>
-    <h1>Contexte</h1>
-    <div th:if="${membre != null}">
-        <h1 th:text="${membre.prenom}"></h1>
-        <a th:href="@{/contexte}">Deconnection</a>
-    </div>
-    <main th:if="${membre == null}">
-        <a th:each="m : ${listMembres}" th:text="${m.prenom}" th:href="@{/contexte/session(id=${m.id})}"></a>
-    </main>
+<div data-th-replace="~{fragments/header :: entete}"></div>
+
+<main class="cinema-main">
+    <section class="cinema-section">
+
+        <h2>Context</h2>
+
+        <div th:if="${membre != null}">
+            <h1 th:text="${membre.prenom}"></h1>
+            <a class="logout-btn" th:href="@{/contexte}">Déconnexion</a>
+        </div>
+
+        <div th:if="${membre == null}" class="user-buttons">
+            <a class="user-btn"
+               th:each="m : ${listMembres}"
+               th:text="${m.prenom}"
+               th:href="@{/contexte/session(id=${m.id})}">
+            </a>
+        </div>
+
+    </section>
+</main>
+
 </body>
 </html>

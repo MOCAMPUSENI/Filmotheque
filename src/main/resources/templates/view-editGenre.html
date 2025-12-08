@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Les films</title>
-    <link rel="stylesheet" th:href="@{/css/general.css}">
-    <link rel="stylesheet" th:href="@{/css/demo-table.css}">
+<!--    <link rel="stylesheet" th:href="@{/css/general.css}">-->
+<!--    <link rel="stylesheet" th:href="@{/css/demo-table.css}">-->
+    <link rel="stylesheet" th:href="@{/css/style-dark-cinema.css}">
     <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
 </head>
 <body>
     <div data-th-replace="~{fragments/header :: entete}"></div>
     <main>
         <ul>
-            <li th:each="g : ${genres}">
+            <li th:each="g : ${@filmServiceImpl.findAllGenres()}">
                 <form action="/genre/modifier" method="post">
                     <label for="title">Libelle : </label>
                     <label th:text="${g.title}"></label>
