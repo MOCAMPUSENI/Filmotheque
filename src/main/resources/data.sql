@@ -1,4 +1,14 @@
 -- ===========================
+-- RESET (optionnel selon ton environnement)
+-- ===========================
+-- TRUNCATE TABLE avis;
+-- TRUNCATE TABLE membres;
+-- TRUNCATE TABLE acteurs;
+-- TRUNCATE TABLE films;
+-- TRUNCATE TABLE participants;
+-- TRUNCATE TABLE genres;
+
+-- ===========================
 -- GENRES
 -- ===========================
 INSERT INTO genres (libelle) VALUES ('Action');
@@ -57,3 +67,30 @@ INSERT INTO acteurs (filmId, participantId) VALUES (1, 4);  -- Elliot Page
 INSERT INTO acteurs (filmId, participantId) VALUES (2, 6);  -- Timothée Chalamet
 INSERT INTO acteurs (filmId, participantId) VALUES (2, 7);  -- Rebecca Ferguson
 INSERT INTO acteurs (filmId, participantId) VALUES (2, 8);  -- Oscar Isaac
+
+-- ===========================
+-- MEMBRES
+-- ===========================
+INSERT INTO membres (nom, prenom, pseudo, admin)
+VALUES ('admin', 'astrateur', 'admin123', 1);
+
+INSERT INTO membres (nom, prenom, pseudo, admin)
+VALUES ('Baille', 'Anne-Lise', 'abaille@campus-eni.fr', 0);
+
+INSERT INTO membres (nom, prenom, pseudo, admin)
+VALUES ('Gobin', 'Stéphane', 'sgobin@campus-eni.fr', 0);
+
+INSERT INTO membres (nom, prenom, pseudo, admin)
+VALUES ('Trillard', 'Julien', 'jtrillard@campus-eni.fr', 0);
+
+-- ===========================
+-- AVIS (liés aux membres)
+-- ===========================
+INSERT INTO avis (note, commentaire, membreId, filmId)
+VALUES (5, 'Incroyable film, concept brillant !', 2, 1);  -- user1
+
+INSERT INTO avis (note, commentaire, membreId, filmId)
+VALUES (4, 'Très bon film, visuellement superbe.', 3, 2);  -- user2
+
+INSERT INTO avis (note, commentaire, membreId, filmId)
+VALUES (5, 'Un chef d’œuvre de science-fiction.', 2, 2);  -- user1
