@@ -29,9 +29,9 @@
                     <li><label>Synopsis : </label><textarea readonly th:text="${film.synopsis}" disabled></textarea></li>
                     <th:block th:if="${film.avis}">
                         <label>Avis :</label>
-                        <ul th:each="a : ${film.avis}" class="flex-outer">
+                        <ul th:each="a : ${@avisServiceImpl.findAllAvisByFilmId(film.id)}" class="flex-outer">
                             <li>
-                                <label for="avis" th:text="'Avis de ' + ${a.membre.prenom + ' ' + a.membre.nom} + ' : '"></label>
+                                <label for="avis" th:text="'Avis de ' + ${@membreServiceImpl.findMembreById(a.membreId).toString()} + ' : '"></label>
                                 <input id="avis" type="text" th:value="${a.commentaire}" disabled>
                             </li>
                             <li>
@@ -46,9 +46,9 @@
                 <h1>Laissez un avis sur le film !</h1>
                 <ul class="flex-outer">
                     <li>
-                        <label for="emailMembre">Qui écrit ce commentaire ?</label>
-                        <select id="emailMembre" name="emailMembre">
-                            <option th:each="m : ${membres}" th:text="${m.prenom + ' ' + m.nom}" th:value="${m.pseudo}"></option>
+                        <label for="idMembre">Qui écrit ce commentaire ?</label>
+                        <select id="idMembre" name="idMembre">
+                            <option th:each="m : ${@membreServiceImpl.findAllMembres()}" th:text="${m.prenom + ' ' + m.nom}" th:value="${m.id}"></option>
                         </select>
                     </li>
                     <li>
