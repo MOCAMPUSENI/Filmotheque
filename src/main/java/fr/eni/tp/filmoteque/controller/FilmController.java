@@ -4,12 +4,9 @@ import fr.eni.tp.filmoteque.bll.AvisService;
 import fr.eni.tp.filmoteque.bll.FilmService;
 import fr.eni.tp.filmoteque.bll.MembreService;
 import fr.eni.tp.filmoteque.bll.ParticipantService;
-import fr.eni.tp.filmoteque.bll.contexte.ContexteService;
 import fr.eni.tp.filmoteque.bo.*;
-import fr.eni.tp.filmoteque.dal.AvisRepository;
 import fr.eni.tp.filmoteque.dto.FilmDTO;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,11 +51,6 @@ public class FilmController {
     @PostMapping("/films/creer")
     public String creationFilm(@Valid @ModelAttribute("film") FilmDTO filmDTO, BindingResult result, Model model, RedirectAttributes redirectAttr) {
         if (filmService.consulterFilms().stream().noneMatch(f -> f.getTitre().equals(filmDTO.getTitre())) && !result.hasErrors()) {
-            // Film film = new Film();
-            // BeanUtils.copyProperties(filmDTO, film);
-            // film.setRealisateur(participantService.getParticipantById(filmDTO.getRealisateurId()));
-            // filmDTO.getActeursId().forEach(acteurId -> film.getActeurs().add(participantService.getParticipantById(acteurId)));
-            // film.setGenre(filmService.findGenreById(filmDTO.getGenreId()));
             int filmId = filmService.creerFilm(filmDTO);
             filmDTO.getActeursId().forEach(acteurId -> {
                 participantService.addParticipantToFilm(acteurId, filmId);
