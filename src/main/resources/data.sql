@@ -72,7 +72,7 @@ INSERT INTO acteurs (filmId, participantId) VALUES (2, 8);  -- Oscar Isaac
 -- MEMBRES
 -- ===========================
 INSERT INTO membres (nom, prenom, pseudo, admin)
-VALUES ('admin', 'astrateur', 'admin123', 1);
+VALUES ('admin', 'istrateur', 'admin123', 1);
 
 INSERT INTO membres (nom, prenom, pseudo, admin)
 VALUES ('Baille', 'Anne-Lise', 'abaille@campus-eni.fr', 0);
