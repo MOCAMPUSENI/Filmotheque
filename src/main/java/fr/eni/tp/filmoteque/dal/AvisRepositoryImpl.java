@@ -3,11 +3,13 @@ package fr.eni.tp.filmoteque.dal;
 import fr.eni.tp.filmoteque.bo.Avis;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class AvisRepositoryImpl implements AvisRepository {
     private JdbcTemplate jdbcTemplate;
     
@@ -44,5 +46,10 @@ public class AvisRepositoryImpl implements AvisRepository {
             avis.setMembreId(rs.getInt("membreId"));
             return avis;
         }
+    }
+    
+    public void addAvis(Avis avis) {
+        String sql = "INSERT INTO avis VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, avis.getNote(), avis.getCommentaire(), avis.getMembreId(), avis.getFilmId());
     }
 }
