@@ -1,4 +1,4 @@
 package fr.eni.tp.filmoteque.dal;
 
-public class AvisRepositoryImpl {
+public class AvisRepositoryImpl implements AvisRepository {
 }
