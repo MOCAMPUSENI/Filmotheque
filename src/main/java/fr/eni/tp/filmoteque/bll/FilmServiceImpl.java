@@ -5,6 +5,7 @@ import fr.eni.tp.filmoteque.dal.FilmRepository;
 import fr.eni.tp.filmoteque.dal.FilmRepositoryImpl;
 import fr.eni.tp.filmoteque.dal.GenreRepositoryImpl;
 import fr.eni.tp.filmoteque.dto.FilmDTO;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,6 @@ import java.util.List;
 public class FilmServiceImpl implements FilmService{
     // Attributs statiques pour gérer les valeurs à afficher et simuler les données
     // en base
-    private static List<Participant> lstParticipants = new ArrayList<>();
-    private static int indexFilms = 1;
     FilmRepository filmRepository;
     GenreRepositoryImpl genreRepository;
     
@@ -25,7 +24,7 @@ public class FilmServiceImpl implements FilmService{
         this.filmRepository = filmRepository;
     }
     
-    @Override
+    @Cacheable("films")
     public List<FilmDTO> consulterFilms() {
         return filmRepository.findAllFilms();
     }
@@ -35,18 +34,14 @@ public class FilmServiceImpl implements FilmService{
         return filmRepository.findFilmById(id);
     }
     
-    @Override
-    public List<Participant> consulterParticipants() {
-        return lstParticipants;
-    }
-    
-    @Override
+    @CacheEvict(value = "films", allEntries = true)
     public int creerFilm(FilmDTO film) {
         return filmRepository.addFilm(film);
     }
     
     // ? GenreService
     
+    @Cacheable("genres")
     public List<Genre> findAllGenres() {
         return genreRepository.findAllGenres();
     }
@@ -55,10 +50,12 @@ public class FilmServiceImpl implements FilmService{
         return genreRepository.findGenreById(id);
     }
     
+    @CacheEvict(value = "genres", allEntries = true)
     public void addGenre(String libelle) {
         genreRepository.addGenre(libelle);
     }
     
+    @CacheEvict(value = "genres", allEntries = true)
     public void updateGenre(String newLibelle, int id) {
         genreRepository.updateGenre(newLibelle, id);
     }
