@@ -2,6 +2,8 @@ package fr.eni.tp.filmoteque.bll;
 
 import fr.eni.tp.filmoteque.bo.Avis;
 import fr.eni.tp.filmoteque.dal.AvisRepositoryImpl;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ public class AvisServiceImpl implements AvisService {
         this.avisRepositoryImpl = avisRepositoryImpl;
     }
     
+    @Cacheable("avis")
     public List<Avis> findAllAvis() {
         return avisRepositoryImpl.findAllAvis();
     }
@@ -30,6 +33,7 @@ public class AvisServiceImpl implements AvisService {
         return avisRepositoryImpl.findAllAvisByFilmId(filmId);
     }
     
+    @CacheEvict(value = "avis", allEntries = true)
     public void addAvis(Avis avis) {
         avisRepositoryImpl.addAvis(avis);
     }
