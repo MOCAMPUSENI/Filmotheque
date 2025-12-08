@@ -92,8 +92,8 @@ public class FilmController {
     @PostMapping("/avis/creer")
     public String creerAvis(@RequestParam("note") int note, @RequestParam("commentaire") String commentaire, @RequestParam("emailMembre") String emailMembre, @RequestParam("idFilm") int idFilm) {
         Membre membre = contexteService.charger(emailMembre);
-        Avis avis = new Avis(note, commentaire, membre);
-        filmService.consulterFilmParId(idFilm).getAvis().add(avis);
+        Avis avis = new Avis(note, commentaire, membre.getId(), idFilm);
+        // filmService.consulterFilmParId(idFilm).getAvis().add(avis);
         return "redirect:/films/detail?id=" + idFilm;
     }
     
