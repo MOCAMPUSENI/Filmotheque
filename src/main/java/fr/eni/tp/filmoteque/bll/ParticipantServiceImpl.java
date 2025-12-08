@@ -3,6 +3,8 @@ package fr.eni.tp.filmoteque.bll;
 import fr.eni.tp.filmoteque.bo.Participant;
 import fr.eni.tp.filmoteque.dal.ParticipantRepository;
 import fr.eni.tp.filmoteque.dto.FilmDTO;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ public class ParticipantServiceImpl implements ParticipantService {
         this.participantRepository = participantRepository;
     }
     
+    @Cacheable("participants")
     public List<Participant> getAllParticipants () {
         return participantRepository.getAllParticipants();
     }
@@ -31,6 +34,7 @@ public class ParticipantServiceImpl implements ParticipantService {
         return participantRepository.getAllFilmsByParticipant(id);
     }
     
+    @CacheEvict(value = "participants", allEntries = true)
     public void addParticipant(Participant participant) {
         participantRepository.addParticipant(participant);
     }
