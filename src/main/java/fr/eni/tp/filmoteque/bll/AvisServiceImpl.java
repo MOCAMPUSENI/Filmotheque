@@ -2,9 +2,11 @@ package fr.eni.tp.filmoteque.bll;
 
 import fr.eni.tp.filmoteque.bo.Avis;
 import fr.eni.tp.filmoteque.dal.AvisRepositoryImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AvisServiceImpl implements AvisService {
     AvisRepositoryImpl avisRepositoryImpl;
     
@@ -25,6 +27,10 @@ public class AvisServiceImpl implements AvisService {
     }
     
     public List<Avis> findAllAvisByFilmId(int filmId) {
-        return  avisRepositoryImpl.findAllAvisByFilmId(filmId);
+        return avisRepositoryImpl.findAllAvisByFilmId(filmId);
+    }
+    
+    public void addAvis(Avis avis) {
+        avisRepositoryImpl.addAvis(avis);
     }
 }
