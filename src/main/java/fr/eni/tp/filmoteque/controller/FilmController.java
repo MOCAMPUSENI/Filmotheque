@@ -1,9 +1,12 @@
 package fr.eni.tp.filmoteque.controller;
 
+import fr.eni.tp.filmoteque.bll.AvisService;
 import fr.eni.tp.filmoteque.bll.FilmService;
+import fr.eni.tp.filmoteque.bll.MembreService;
 import fr.eni.tp.filmoteque.bll.ParticipantService;
 import fr.eni.tp.filmoteque.bll.contexte.ContexteService;
 import fr.eni.tp.filmoteque.bo.*;
+import fr.eni.tp.filmoteque.dal.AvisRepository;
 import fr.eni.tp.filmoteque.dto.FilmDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -18,11 +21,15 @@ public class FilmController {
     FilmService filmService;
     ContexteService  contexteService;
     ParticipantService  participantService;
+    AvisService avisRepository;
+    MembreService membreService;
     
-    public FilmController(FilmService filmService, ContexteService contexteService, ParticipantService participantService) {
+    public FilmController(FilmService filmService, ContexteService contexteService, ParticipantService participantService, AvisService avisService, MembreService membreService) {
         this.filmService = filmService;
         this.contexteService = contexteService;
         this.participantService = participantService;
+        this.avisRepository = avisService;
+        this.membreService = membreService;
     }
 
     @GetMapping("/films")
@@ -90,10 +97,10 @@ public class FilmController {
     }
     
     @PostMapping("/avis/creer")
-    public String creerAvis(@RequestParam("note") int note, @RequestParam("commentaire") String commentaire, @RequestParam("emailMembre") String emailMembre, @RequestParam("idFilm") int idFilm) {
-        Membre membre = contexteService.charger(emailMembre);
+    public String creerAvis(@RequestParam("note") int note, @RequestParam("commentaire") String commentaire, @RequestParam("idMembre") int idMembre, @RequestParam("idFilm") int idFilm) {
+        Membre membre = membreService.findMembreById(idMembre);
         Avis avis = new Avis(note, commentaire, membre.getId(), idFilm);
-        // filmService.consulterFilmParId(idFilm).getAvis().add(avis);
+        avisRepository.addAvis(avis);
         return "redirect:/films/detail?id=" + idFilm;
     }
     
@@ -101,6 +108,17 @@ public class FilmController {
     public String viewCreerGenre(Model model) {
         model.addAttribute("genres", filmService.findAllGenres());
         return "view-genre";
+    }
+    
+    @GetMapping("/membres")
+    public String viewMembres(Model model) {
+        return "view-membres";
+    }
+    
+    @GetMapping("/membres/detail")
+    public String viewMembres(@RequestParam(name = "id") int id, Model model) {
+        model.addAttribute("membre", membreService.findMembreById(id));
+        return "view-membres-details";
     }
     
     @PostMapping("/genre/creer")
