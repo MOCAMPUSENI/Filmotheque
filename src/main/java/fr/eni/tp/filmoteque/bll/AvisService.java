@@ -9,4 +9,5 @@ public interface AvisService {
     Avis findAvisById(int id);
     List<Avis> findAllAvisByMembreId(int membreId);
     List<Avis> findAllAvisByFilmId(int filmId);
+    void addAvis(Avis avis);
 }
