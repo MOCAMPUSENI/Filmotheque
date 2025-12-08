@@ -50,9 +50,6 @@ public class Membre extends Personne {
 
     @Override
     public String toString() {
-        return "Membre (" +
-                "pseudo=" + pseudo + '\'' +
-                ", admin=" + admin +
-                ')';
+        return getPrenom() + " " + getNom();
     }
 }
