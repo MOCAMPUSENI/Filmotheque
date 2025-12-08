@@ -7,27 +7,45 @@
 </head>
 
 <body>
+
 <div data-th-replace="~{fragments/header :: entete}"></div>
 
 <main class="cinema-main">
-    <section class="cinema-section">
 
-        <h2>Context</h2>
+    <section class="cinema-section context-section">
 
-        <div th:if="${membre != null}">
-            <h1 th:text="${membre.prenom}"></h1>
+        <h2 class="context-title">Espace Contexte</h2>
+
+        <!-- === Membre connecté === -->
+        <div th:if="${membre != null}" class="context-card">
+
+            <h3 class="context-welcome">
+                Bonjour <span th:text="${membre.prenom + ' ' + membre.nom}"></span> !
+            </h3>
+
+            <div class="context-info">
+                <p><strong>Pseudo :</strong> <span th:text="${membre.pseudo}"></span></p>
+                <p><strong>ID :</strong> <span th:text="${membre.id}"></span></p>
+            </div>
+
             <a class="logout-btn" th:href="@{/contexte}">Déconnexion</a>
         </div>
 
-        <div th:if="${membre == null}" class="user-buttons">
-            <a class="user-btn"
-               th:each="m : ${listMembres}"
-               th:text="${m.prenom}"
-               th:href="@{/contexte/session(id=${m.id})}">
-            </a>
+        <!-- === Liste des membres (si non connecté) === -->
+        <div th:if="${membre == null}">
+            <h3 class="choose-user-title">Sélectionnez votre compte :</h3>
+
+            <div class="user-buttons">
+                <a class="user-btn"
+                   th:each="m : ${listMembres}"
+                   th:text="${m.prenom + ' ' + m.nom}"
+                   th:href="@{/contexte/session(id=${m.id})}">
+                </a>
+            </div>
         </div>
 
     </section>
+
 </main>
 
 </body>
