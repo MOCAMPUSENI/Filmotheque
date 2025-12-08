@@ -2,6 +2,7 @@ package fr.eni.tp.filmoteque.bll;
 
 import fr.eni.tp.filmoteque.bo.Membre;
 import fr.eni.tp.filmoteque.dal.MembresRepositoryImpl;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class MembreServiceImpl implements MembreService {
         this.membresRepositoryImpl = membresRepositoryImpl;
     }
     
+    @Cacheable("membres")
     public List<Membre>  findAllMembres() {
         return membresRepositoryImpl.findAllMembres();
     }
