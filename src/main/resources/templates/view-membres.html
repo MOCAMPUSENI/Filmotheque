@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Les films</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/demo-table.css}">
+    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
+</head>
+<body>
+    <div data-th-replace="~{fragments/header :: entete}"></div>
+
+    <main>
+        <!--        <h1>Les membres de L'ENI</h1>-->
+
+        <h1 class="center-section">Voici les membres de ENI Ecole</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Prenom</th>
+                <th>Nom</th>
+                <th>Détails</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="membre : ${@membreServiceImpl.findAllMembres()}" class="formateur">
+                <td th:text="${membre?.pseudo}"></td>
+                <td th:text="${membre?.prenom}"></td>
+                <td th:text="${membre?.nom}"></td>
+                <td><a th:href="@{/membres/detail(id=${membre.id})}"> Details </a></td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
