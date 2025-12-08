@@ -19,14 +19,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class FilmController {
     FilmService filmService;
-    ContexteService  contexteService;
     ParticipantService  participantService;
     AvisService avisRepository;
     MembreService membreService;
     
-    public FilmController(FilmService filmService, ContexteService contexteService, ParticipantService participantService, AvisService avisService, MembreService membreService) {
+    public FilmController(FilmService filmService, ParticipantService participantService, AvisService avisService, MembreService membreService) {
         this.filmService = filmService;
-        this.contexteService = contexteService;
         this.participantService = participantService;
         this.avisRepository = avisService;
         this.membreService = membreService;
@@ -41,7 +39,6 @@ public class FilmController {
     @GetMapping("/films/detail")
     public String afficherUnFilm(@RequestParam(name = "id") int id, Model model) {
         model.addAttribute("film", filmService.consulterFilmParId(id));
-        model.addAttribute("membres", contexteService.getListMembre());
         return "view-films-details";
     }
     
@@ -76,22 +73,22 @@ public class FilmController {
     
     @GetMapping("/contexte")
     public String afficherContexte(Model model) {
-        model.addAttribute("listMembres", contexteService.getListMembre());
+        model.addAttribute("listMembres", membreService.findAllMembres());
         model.addAttribute("membre", null);
         return "view-contexte";
     }
     
     @GetMapping("/contexte/session")
-    public String session(@RequestParam(name = "email", required = false) String email, Model model) {
-        if (email != null) {
-            Membre membre = contexteService.charger(email);
+    public String session(@RequestParam(name = "id", required = false) int id, Model model) {
+        if (id != 0) {
+            Membre membre = membreService.findMembreById(id);
             if (membre != null) {
                 model.addAttribute("membre", membre);
             } else {
                 return "redirect:/contexte";
             }
         } else {
-            model.addAttribute("membre", contexteService.charger("jtrillard@campus-eni.fr"));
+            model.addAttribute("membre", membreService.findMembreById(1));
         }
         return "view-contexte";
     }
