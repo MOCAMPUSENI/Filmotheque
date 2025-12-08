@@ -1,7 +1,6 @@
 package fr.eni.tp.filmoteque.dal;
 
 import fr.eni.tp.filmoteque.bo.Avis;
-import fr.eni.tp.filmoteque.bo.Membre;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
