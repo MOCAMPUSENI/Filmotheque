@@ -11,19 +11,19 @@ CREATE TABLE genres (
 );
 
 create table participants (
-                              id INT not null primary key IDENTITY(1,1),
-                              prenom varchar(50) not null,
-                              nom varchar(50) not null
+    id INT not null primary key IDENTITY(1,1),
+    prenom varchar(50) not null,
+    nom varchar(50) not null
 );
 
 create table films(
-                      id INT not null primary key IDENTITY(1,1),
-                      titre varchar(50) not null,
-                      annee int not null,
-                      duree int not null,
-                      synopsis varchar(500) not null,
-                      genreId int not null,
-                      realisateurId int not null
+    id INT not null primary key IDENTITY(1,1),
+    titre varchar(50) not null,
+    annee int not null,
+    duree int not null,
+    synopsis varchar(500) not null,
+    genreId int not null,
+    realisateurId int not null
 );
 
 alter table films add constraint fk_films_genre_id foreign key(genreId)
@@ -34,8 +34,9 @@ alter table films add constraint fk_films_realisateur_id foreign key(realisateur
 
 
 create table acteurs(
-                        filmId int NOT NULL,
-                        participantId int NOT NULL);
+    filmId int NOT NULL,
+    participantId int NOT NULL
+);
 
 alter table acteurs add primary key (filmId, participantId);
 
