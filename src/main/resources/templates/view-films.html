@@ -28,7 +28,7 @@
             </thead>
             <tbody>
             <tr th:each="film : ${@filmServiceImpl.consulterFilms()}" class="formateur">
-                <td th:if="${film.genreId}" th:text="${@filmServiceImpl.findGenreById(film.genreId).title}"></td>
+                <td th:if="${film.genreId}" th:text="${@genreServiceImpl.findGenreById(film.genreId).title}"></td>
                 <td th:if="${film.anne}" th:text="${film.anne}"></td>
                 <td th:if="${film.titre}" th:text="${film.titre}"></td>
                 <td th:if="${film.realisateurId}" th:text="${@participantServiceImpl.getParticipantById(film.realisateurId).toString()}"></td>

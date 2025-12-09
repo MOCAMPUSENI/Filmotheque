@@ -35,7 +35,7 @@
         <h2>📚 Genres disponibles</h2>
 
         <div class="genre-list">
-            <div class="genre-card" th:each="g : ${@filmServiceImpl.findAllGenres()}">
+            <div class="genre-card" th:each="g : ${@genreServiceImpl.findAllGenres()}">
                 <p th:text="${g.title}"></p>
             </div>
         </div>

@@ -12,7 +12,7 @@
     <div data-th-replace="~{fragments/header :: entete}"></div>
     <main>
         <ul>
-            <li th:each="g : ${@filmServiceImpl.findAllGenres()}">
+            <li th:each="g : ${@genreServiceImpl.findAllGenres()}">
                 <form action="/genre/modifier" method="post">
                     <label for="title">Libelle : </label>
                     <label th:text="${g.title}"></label>

@@ -37,7 +37,7 @@
             <div>
                 <label for="genreId">Genre :</label>
                 <select name="genreId" id="genreId" th:field="*{genreId}">
-                    <option th:each="g : ${@filmServiceImpl.findAllGenres()}" th:text="${g.title}" th:value="${g.id}"></option>
+                    <option th:each="g : ${@genreServiceImpl.findAllGenres()}" th:text="${g.title}" th:value="${g.id}"></option>
                 </select>
                 <div th:if="${#fields.hasErrors('genreId')}" th:errors="*{genreId}" style="color: red;"></div>
             </div>

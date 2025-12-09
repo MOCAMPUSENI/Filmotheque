@@ -17,7 +17,7 @@
             <form action="/formateurs/detail" method="post">
                 <h1>Details du film</h1>
                 <ul class="flex-outer">
-                    <li><label for="inputGenre">Genre : </label><input id="inputGenre" type="text" name="genre" th:value="${@filmServiceImpl.findGenreById(film.genreId).title}" disabled></li>
+                    <li><label for="inputGenre">Genre : </label><input id="inputGenre" type="text" name="genre" th:value="${@genreServiceImpl.findGenreById(film.genreId).title}" disabled></li>
                     <li><label for="inputAnnee">Année : </label><input id="inputAnnee" type="text" name="annee" th:value="${film?.anne}" disabled></li>
                     <li><label for="inputTitre">Titre : </label><input id="inputTitre" type="text" name="titre" th:value="${film?.titre}" disabled></li>
                     <li><label for="inputRealisateur">Realisateur : </label><input id="inputRealisateur" type="text" name="realisateur" th:value="${@participantServiceImpl.getParticipantById(film.realisateurId).toString()}" disabled></li>
