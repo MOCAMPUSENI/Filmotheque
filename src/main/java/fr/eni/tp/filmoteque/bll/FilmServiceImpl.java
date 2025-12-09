@@ -17,10 +17,9 @@ public class FilmServiceImpl implements FilmService{
     // Attributs statiques pour gérer les valeurs à afficher et simuler les données
     // en base
     FilmRepository filmRepository;
-    GenreRepositoryImpl genreRepository;
+    // GenreRepositoryImpl genreRepository;
     
-    public FilmServiceImpl(GenreRepositoryImpl genreRepository, FilmRepository filmRepository) {
-        this.genreRepository = genreRepository;
+    public FilmServiceImpl(FilmRepository filmRepository) {
         this.filmRepository = filmRepository;
     }
     
@@ -39,24 +38,24 @@ public class FilmServiceImpl implements FilmService{
         return filmRepository.addFilm(film);
     }
     
-    // ? GenreService
-    
-    @Cacheable("genres")
-    public List<Genre> findAllGenres() {
-        return genreRepository.findAllGenres();
-    }
-    
-    public Genre findGenreById(int id) {
-        return genreRepository.findGenreById(id);
-    }
-    
-    @CacheEvict(value = "genres", allEntries = true)
-    public void addGenre(String libelle) {
-        genreRepository.addGenre(libelle);
-    }
-    
-    @CacheEvict(value = "genres", allEntries = true)
-    public void updateGenre(String newLibelle, int id) {
-        genreRepository.updateGenre(newLibelle, id);
-    }
+    // // ? GenreService
+    //
+    // @Cacheable("genres")
+    // public List<Genre> findAllGenres() {
+    //     return genreRepository.findAllGenres();
+    // }
+    //
+    // public Genre findGenreById(int id) {
+    //     return genreRepository.findGenreById(id);
+    // }
+    //
+    // @CacheEvict(value = "genres", allEntries = true)
+    // public void addGenre(String libelle) {
+    //     genreRepository.addGenre(libelle);
+    // }
+    //
+    // @CacheEvict(value = "genres", allEntries = true)
+    // public void updateGenre(String newLibelle, int id) {
+    //     genreRepository.updateGenre(newLibelle, id);
+    // }
 }

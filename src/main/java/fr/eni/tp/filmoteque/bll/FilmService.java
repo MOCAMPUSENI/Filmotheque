@@ -13,8 +13,8 @@ public interface FilmService {
     int creerFilm(FilmDTO film);
     
     // GenreService
-    List<Genre> findAllGenres();
-    Genre findGenreById(int id);
-    void addGenre(String libelle);
-    void updateGenre(String newLibelle, int id);
+    // List<Genre> findAllGenres();
+    // Genre findGenreById(int id);
+    // void addGenre(String libelle);
+    // void updateGenre(String newLibelle, int id);
 }
