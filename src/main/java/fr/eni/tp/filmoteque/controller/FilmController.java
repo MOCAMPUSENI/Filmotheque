@@ -1,9 +1,6 @@
 package fr.eni.tp.filmoteque.controller;
 
-import fr.eni.tp.filmoteque.bll.AvisService;
-import fr.eni.tp.filmoteque.bll.FilmService;
-import fr.eni.tp.filmoteque.bll.MembreService;
-import fr.eni.tp.filmoteque.bll.ParticipantService;
+import fr.eni.tp.filmoteque.bll.*;
 import fr.eni.tp.filmoteque.bo.*;
 import fr.eni.tp.filmoteque.dto.FilmDTO;
 import jakarta.validation.Valid;
@@ -16,15 +13,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class FilmController {
     FilmService filmService;
+    GenreService genreService;
     ParticipantService  participantService;
     AvisService avisRepository;
     MembreService membreService;
     
-    public FilmController(FilmService filmService, ParticipantService participantService, AvisService avisService, MembreService membreService) {
+    public FilmController(FilmService filmService, ParticipantService participantService, AvisService avisService, MembreService membreService, GenreService genreService) {
         this.filmService = filmService;
         this.participantService = participantService;
         this.avisRepository = avisService;
         this.membreService = membreService;
+        this.genreService = genreService;
     }
 
     @GetMapping("/films")
@@ -95,7 +94,7 @@ public class FilmController {
     
     @GetMapping("/genre/creer")
     public String viewCreerGenre(Model model) {
-        model.addAttribute("genres", filmService.findAllGenres());
+        model.addAttribute("genres", genreService.findAllGenres());
         return "view-genre";
     }
     
@@ -112,19 +111,19 @@ public class FilmController {
     
     @PostMapping("/genre/creer")
     public String creeGenre(@ModelAttribute("libelle") String libelle) {
-        filmService.addGenre(libelle);
+        genreService.addGenre(libelle);
         return "redirect:/genre/creer";
     }
     
     @GetMapping("/genre/modifier")
     public String viewModifierGenre(Model model) {
-        model.addAttribute("genres", filmService.findAllGenres());
+        model.addAttribute("genres", genreService.findAllGenres());
         return "view-editGenre";
     }
     
     @PostMapping("/genre/modifier")
     public String modifierGenre(@ModelAttribute Genre genre) {
-        filmService.updateGenre(genre.getTitle(), genre.getId());
+        genreService.updateGenre(genre.getTitle(), genre.getId());
         return "redirect:/genre/creer";
     }
 }
