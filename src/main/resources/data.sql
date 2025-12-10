@@ -54,6 +54,50 @@ VALUES (
            5   -- Denis Villeneuve
        );
 
+-- Star wars
+INSERT INTO films (titre, annee, duree, synopsis, genreId, realisateurId)
+VALUES (
+           'Star wars',
+           2003,
+           155,
+           'Chepas',
+           2,  -- Science-Fiction
+           2   -- Denis Villeneuve
+       );
+
+-- Toy story
+INSERT INTO films (titre, annee, duree, synopsis, genreId, realisateurId)
+VALUES (
+           'Toy story',
+           2010,
+           200,
+           'Des jouets',
+           3,  -- Science-Fiction
+           3   -- Denis Villeneuve
+       );
+
+-- Tron
+INSERT INTO films (titre, annee, duree, synopsis, genreId, realisateurId)
+VALUES (
+           'Tron',
+           2015,
+           188,
+           'Motos',
+           4,  -- Science-Fiction
+           7   -- Denis Villeneuve
+       );
+
+-- Star wars
+INSERT INTO films (titre, annee, duree, synopsis, genreId, realisateurId)
+VALUES (
+           'Star wars 2',
+           2006,
+           155,
+           'Chepas',
+           2,  -- Science-Fiction
+           2   -- Denis Villeneuve
+       );
+
 -- ===========================
 -- ACTEURS (casting)
 -- ===========================

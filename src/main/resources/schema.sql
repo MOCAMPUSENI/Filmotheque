@@ -6,58 +6,53 @@ DROP TABLE IF EXISTS participants;
 DROP TABLE IF EXISTS genres;
 
 CREATE TABLE genres (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    libelle VARCHAR(50) NOT NULL UNIQUE
+                        id INT IDENTITY(1,1) PRIMARY KEY,
+                        libelle VARCHAR(50) NOT NULL UNIQUE
 );
 
-create table participants (
-    id INT not null primary key IDENTITY(1,1),
-    prenom varchar(50) not null,
-    nom varchar(50) not null
+CREATE TABLE participants (
+                              id INT IDENTITY(1,1) PRIMARY KEY,
+                              prenom VARCHAR(50) NOT NULL,
+                              nom VARCHAR(50) NOT NULL
 );
 
-create table films(
-    id INT not null primary key IDENTITY(1,1),
-    titre varchar(50) not null,
-    annee int not null,
-    duree int not null,
-    synopsis varchar(500) not null,
-    genreId int not null,
-    realisateurId int not null
+CREATE TABLE films (
+                       id INT IDENTITY(1,1) PRIMARY KEY,
+                       titre VARCHAR(50) NOT NULL,
+                       annee INT NOT NULL,
+                       duree INT NOT NULL,
+                       synopsis VARCHAR(500) NOT NULL,
+                       genreId INT NOT NULL,
+                       realisateurId INT NOT NULL
 );
 
-alter table films add constraint fk_films_genre_id foreign key(genreId)
-    references genres(id);
+ALTER TABLE films ADD CONSTRAINT fk_films_genre_id FOREIGN KEY(genreId) REFERENCES genres(id);
+ALTER TABLE films ADD CONSTRAINT fk_films_realisateur_id FOREIGN KEY(realisateurId) REFERENCES participants(id);
 
-alter table films add constraint fk_films_realisateur_id foreign key(realisateurId)
-    references participants(id);
-
-
-create table acteurs(
-    filmId int NOT NULL,
-    participantId int NOT NULL
+CREATE TABLE acteurs (
+                         filmId INT NOT NULL,
+                         participantId INT NOT NULL,
+                         PRIMARY KEY (filmId, participantId)
 );
 
-alter table acteurs add primary key (filmId, participantId);
+ALTER TABLE acteurs ADD CONSTRAINT fk_acteurs_film FOREIGN KEY(filmId) REFERENCES films(id);
+ALTER TABLE acteurs ADD CONSTRAINT fk_acteurs_participant FOREIGN KEY(participantId) REFERENCES participants(id);
 
-alter table acteurs add constraint fk_acteurs_filmId foreign key(filmId)   references films(id);
-alter table acteurs add constraint fk_acteurs_participantId foreign key (participantId)   references participants(id);
-
-create table membres(
-    id INT not null primary key IDENTITY(1,1),
-    nom NVARCHAR (100) NOT NULL,
-    prenom NVARCHAR (100) NOT NULL,
-    pseudo NVARCHAR(100) NOT NULL,
-    admin BIT NOT NULL
+CREATE TABLE membres (
+                         id INT IDENTITY(1,1) PRIMARY KEY,
+                         nom NVARCHAR(100) NOT NULL,
+                         prenom NVARCHAR(100) NOT NULL,
+                         pseudo NVARCHAR(100) NOT NULL,
+                         admin BIT NOT NULL
 );
 
-create table avis(
-    id INT not null primary key IDENTITY(1,1),
-    note INT NOT NULL,
-    commentaire NVARCHAR(100) NOT NULL,
-    membreId INT NOT NULL,
-    filmId INT NOT NULL
+CREATE TABLE avis (
+                      id INT IDENTITY(1,1) PRIMARY KEY,
+                      note INT NOT NULL,
+                      commentaire NVARCHAR(100) NOT NULL,
+                      membreId INT NOT NULL,
+                      filmId INT NOT NULL
 );
 
-alter table avis add constraint fk_avis_membreId foreign key(membreId)   references membres(id);
-alter table avis add constraint fk_avis_filmId foreign key(filmId)   references films(id);
+ALTER TABLE avis ADD CONSTRAINT fk_avis_membre FOREIGN KEY(membreId) REFERENCES membres(id);
+ALTER TABLE avis ADD CONSTRAINT fk_avis_film FOREIGN KEY(filmId) REFERENCES films(id);
