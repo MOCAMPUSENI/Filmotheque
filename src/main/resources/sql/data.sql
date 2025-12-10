@@ -112,6 +112,26 @@ INSERT INTO acteurs (filmId, participantId) VALUES (2, 6);  -- Timothée Chalame
 INSERT INTO acteurs (filmId, participantId) VALUES (2, 7);  -- Rebecca Ferguson
 INSERT INTO acteurs (filmId, participantId) VALUES (2, 8);  -- Oscar Isaac
 
+-- Casting Dune (filmId = 2)
+INSERT INTO acteurs (filmId, participantId) VALUES (3, 2);  -- Timothée Chalamet
+INSERT INTO acteurs (filmId, participantId) VALUES (3, 5);  -- Rebecca Ferguson
+INSERT INTO acteurs (filmId, participantId) VALUES (3, 8);  -- Oscar Isaac
+
+-- Casting Dune (filmId = 2)
+INSERT INTO acteurs (filmId, participantId) VALUES (4, 3);  -- Timothée Chalamet
+INSERT INTO acteurs (filmId, participantId) VALUES (4, 4);  -- Rebecca Ferguson
+INSERT INTO acteurs (filmId, participantId) VALUES (4, 1);  -- Oscar Isaac
+
+-- Casting Dune (filmId = 2)
+INSERT INTO acteurs (filmId, participantId) VALUES (5, 6);  -- Timothée Chalamet
+INSERT INTO acteurs (filmId, participantId) VALUES (5, 7);  -- Rebecca Ferguson
+INSERT INTO acteurs (filmId, participantId) VALUES (5, 8);  -- Oscar Isaac
+
+-- Casting Dune (filmId = 2)
+INSERT INTO acteurs (filmId, participantId) VALUES (6, 1);  -- Timothée Chalamet
+INSERT INTO acteurs (filmId, participantId) VALUES (6, 5);  -- Rebecca Ferguson
+INSERT INTO acteurs (filmId, participantId) VALUES (6, 6);  -- Oscar Isaac
+
 -- ===========================
 -- MEMBRES
 -- ===========================
