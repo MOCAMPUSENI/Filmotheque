@@ -5,31 +5,34 @@ DROP PROCEDURE IF EXISTS dbo.create_genre;
 DROP PROCEDURE IF EXISTS dbo.create_participant;
 DROP PROCEDURE IF EXISTS dbo.update_genre;
 
-CREATE PROCEDURE dbo.create_acteur @filmId INT,
-                                   @participantId INT
+CREATE PROCEDURE dbo.create_acteur
+    @filmId INT,
+    @participantId INT
 AS
 BEGIN
     INSERT INTO acteurs(filmId, participantId)
     VALUES (@filmId, @participantId);
 END;
 
-CREATE PROCEDURE dbo.create_avis @note INT,
-                                 @commentaire NVARCHAR(100),
-                                 @membreId INT,
-                                 @filmId INT
+CREATE PROCEDURE dbo.create_avis
+    @note INT,
+    @commentaire NVARCHAR(100),
+    @membreId INT,
+    @filmId INT
 AS
 BEGIN
     INSERT INTO avis(note, commentaire, membreId, filmId)
     VALUES (@note, @commentaire, @membreId, @filmId);
 END;
 
-CREATE PROCEDURE dbo.create_film @Titre NVARCHAR(50),
-                                 @Annee INT,
-                                 @Duree INT,
-                                 @Synopsis NVARCHAR(500),
-                                 @GenreId INT,
-                                 @RealisateurId INT,
-                                 @NewId INT OUTPUT
+CREATE PROCEDURE dbo.create_film
+    @Titre NVARCHAR(50),
+    @Annee INT,
+    @Duree INT,
+    @Synopsis NVARCHAR(500),
+    @GenreId INT,
+    @RealisateurId INT,
+    @NewId INT OUTPUT
 AS
 BEGIN
     INSERT INTO films (titre, annee, duree, synopsis, genreId, realisateurId)
@@ -38,23 +41,26 @@ BEGIN
     SET @NewId = SCOPE_IDENTITY();
 END;
 
-CREATE PROCEDURE dbo.create_genre @libelle NVARCHAR(50)
+CREATE PROCEDURE dbo.create_genre
+    @libelle NVARCHAR(50)
 AS
 BEGIN
     INSERT INTO genres(libelle)
     VALUES (@libelle);
 END;
 
-CREATE PROCEDURE dbo.create_participant @prenom NVARCHAR(50),
-                                        @nom NVARCHAR(50)
+CREATE PROCEDURE dbo.create_participant
+    @prenom NVARCHAR(50),
+    @nom NVARCHAR(50)
 AS
 BEGIN
     INSERT INTO participants(prenom, nom)
     VALUES (@prenom, @nom);
 END;
 
-CREATE PROCEDURE dbo.update_genre @libelle NVARCHAR(50),
-                                  @id INT
+CREATE PROCEDURE dbo.update_genre
+    @libelle NVARCHAR(50),
+    @id INT
 AS
 BEGIN
     UPDATE genres
