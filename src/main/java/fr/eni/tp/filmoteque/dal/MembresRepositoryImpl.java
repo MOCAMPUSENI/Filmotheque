@@ -18,13 +18,13 @@ public class MembresRepositoryImpl implements MembresRepository {
     }
     @Override
     public List<Membre> findAllMembres() {
-        String sql = "SELECT * FROM membres";
+        String sql = "SELECT * FROM dbo.findAllMembres";
         return jdbcTemplate.query(sql, new MembreRowMapper());
     }
     
     @Override
     public Membre findMembreById(int id) {
-        String sql = "SELECT * FROM membres WHERE id = ?";
+        String sql = "SELECT * FROM dbo.findAllMembres WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new MembreRowMapper(), id);
     }
     
