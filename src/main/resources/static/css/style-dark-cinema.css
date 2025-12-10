@@ -475,3 +475,398 @@ footer {
 .logout-btn:hover {
     background: #e50914;
 }
+
+.movie-card .meta span {
+    display: block;
+    margin-top: 4px;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+/* ============================
+   SYNOPSIS NETFLIX STYLE
+   ============================ */
+.synopsis-container {
+    margin-top: 12px;
+    position: relative;
+}
+
+.synopsis-short {
+    max-height: 60px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Fade-out */
+.synopsis-short:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 25px;
+    width: 100%;
+    background: linear-gradient(to bottom, transparent, #1f1f1f);
+}
+
+/* Texte long caché par défaut */
+.synopsis-full {
+    display: none;
+    margin-top: 10px;
+    color: #ccc;
+}
+
+.synopsis-toggle-btn {
+    margin-top: 8px;
+    background: none;
+    border: none;
+    color: #e50914;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+    font-weight: 600;
+}
+
+.synopsis-toggle-btn:hover {
+    color: #ff0a16;
+}
+
+/* Animation smooth */
+.synopsis-full,
+.synopsis-short {
+    transition: all 0.3s ease;
+}
+
+/* =========================
+   ENI CAROUSEL — NAMESPACED
+   ========================= */
+
+/* Container */
+.eni-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    margin: 30px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+/* Track */
+.eni-carousel-track {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* empêche drag non voulu, on gère via boutons */
+}
+
+/* Card base */
+.eni-card {
+    position: absolute;
+    width: 300px;
+    height: 380px;
+    pointer-events: auto;
+    transition: transform .45s cubic-bezier(.2,.9,.2,1), opacity .35s ease;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+}
+
+/* Inner gets the tilt (so positioning transform stays intact) */
+.eni-card-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #161616 0%, #1d1d1d 100%);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.45);
+    transition: transform .18s ease-out, box-shadow .25s ease;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Content */
+.eni-film-title {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+.eni-card p { color: #d0d0d0; margin:6px 0; }
+.eni-card-btn {
+    display:inline-block;
+    margin-top: 16px;
+    padding: 8px 12px;
+    background:#e50914;
+    color:white;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+/* Buttons */
+.eni-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    background: rgba(20,20,20,0.8);
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.eni-left-btn { left: 8px; }
+.eni-right-btn { right: 8px; }
+.eni-carousel-btn:hover { transform: translateY(-50%) scale(1.05); }
+
+/* States: center, left, right, hidden-left, hidden-right */
+.eni-card.state-center {
+    transform: translateX(0px) scale(1);
+    opacity: 1;
+    z-index: 30;
+}
+.eni-card.state-left {
+    transform: translateX(-360px) scale(0.78);
+    opacity: 1;
+    z-index: 20;
+}
+.eni-card.state-right {
+    transform: translateX(360px) scale(0.78);
+    opacity: 1;
+    z-index: 20;
+}
+.eni-card.state-hidden-left {
+    transform: translateX(-720px) scale(0.6);
+    opacity: 0;
+    z-index: 10;
+}
+.eni-card.state-hidden-right {
+    transform: translateX(720px) scale(0.6);
+    opacity: 0;
+    z-index: 10;
+}
+
+/* Only the center inner receives tilt transform */
+.eni-card.tilt-active .eni-card-inner {
+    /* will be modified by JS via inline style for rotateX/Y */
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .eni-card { width: 240px; height: 320px; }
+    .eni-card.state-left { transform: translateX(-300px) scale(0.78); }
+    .eni-card.state-right { transform: translateX(300px) scale(0.78); }
+    .eni-card.state-hidden-left { transform: translateX(-600px) scale(0.6); }
+    .eni-card.state-hidden-right { transform: translateX(600px) scale(0.6); }
+}
+@media (max-width: 520px) {
+    .eni-card { width: 200px; height: 280px; }
+    .eni-card.state-left, .eni-card.state-right { display:block; transform: translateX(0) scale(0.86); opacity: 0.9; }
+    .eni-card.state-hidden-left, .eni-card.state-hidden-right { display:none; }
+    .eni-carousel-btn { display:none; }
+}
+
+/* =========================
+   STRONG HOLOGRAPHIC GLOW
+   ========================= */
+
+.eni-card.state-center::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 520px;     /* plus large */
+    height: 520px;    /* plus large */
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    z-index: -1;
+
+    background: radial-gradient(
+            circle at center,
+            rgba(255, 60, 60, 0.85) 0%,     /* centre fort */
+            rgba(255, 0, 30, 0.50) 35%,     /* halo vif */
+            rgba(220, 0, 0, 0.30) 55%,      /* expansion */
+            rgba(0, 0, 0, 0) 80%            /* transition douce */
+    );
+
+    filter: blur(70px);    /* beaucoup plus puissant */
+    opacity: 1;             /* 100% de glow */
+    transition: opacity .35s ease, transform .4s ease;
+    pointer-events: none;
+}
+
+/* Animation plus visible */
+@keyframes eniHoloPulseStrong {
+    0% {
+        transform: translate(-50%, -50%) scale(0.90);
+        opacity: 0.75;
+        filter: blur(60px);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 1;
+        filter: blur(90px);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.90);
+        opacity: 0.75;
+        filter: blur(60px);
+    }
+}
+
+.eni-card.state-center::before {
+    animation: eniHoloPulseStrong 4.2s ease-in-out infinite;
+}
+
+/* Non-centered cards = pas de glow */
+.eni-card:not(.state-center)::before {
+    opacity: 0 !important;
+}
+
+/* ===== CAROUSEL LAYOUT ===== */
+
+.film-carousel {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+    margin-top: 40px;
+}
+
+.carousel-track {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    transition: transform .5s ease;
+    height: 100%;
+}
+
+/* ===== FILM CARD FULL IMAGE ===== */
+
+.film-card {
+    position: relative;
+    width: 260px;
+    height: 380px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 18px;
+    transform-style: preserve-3d;
+
+    /* Injecte l'affiche */
+    background-image: var(--img);
+
+    transition: transform .2s ease, box-shadow .2s ease;
+    cursor: pointer;
+}
+
+/* Glow holographique derrière la card centrale */
+.film-card.center::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 520px;
+    height: 520px;
+
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    z-index: -1;
+
+    background: radial-gradient(
+            circle,
+            rgba(255, 0, 50, 0.9) 0%,
+            rgba(255, 0, 20, 0.6) 30%,
+            rgba(200, 0, 0, 0.4) 55%,
+            rgba(0, 0, 0, 0) 80%
+    );
+
+    filter: blur(90px);
+    opacity: 1;
+
+    animation: holoPulse 4s infinite ease-in-out;
+}
+
+@keyframes holoPulse {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: .7; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.9); opacity: .7; }
+}
+
+/* Les cards à gauche / droite sont plus petites */
+.film-card.left,
+.film-card.right {
+    transform: scale(0.75);
+    opacity: 0.55;
+}
+
+/* ===== OVERLAY (titre + genre + année + bouton) ===== */
+
+.film-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+    border-radius: 18px;
+}
+
+.film-overlay h3 {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+}
+
+.film-overlay p {
+    font-size: .95rem;
+    color: #ccc;
+}
+
+.film-btn {
+    margin-top: 10px;
+    display: inline-block;
+    background: #e50914;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.film-btn:hover {
+    background: #ff0a16;
+}
+
+/* ===== CAROUSEL BUTTONS ===== */
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.55);
+    border: none;
+    color: white;
+    font-size: 30px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.carousel-btn.left { left: 15px; }
+.carousel-btn.right { right: 15px; }
+
+.carousel-btn:hover {
+    background: rgba(0,0,0,0.85);
+}
+
+/* ===== TILT 3D STABLE ===== */
+
+.film-card.center:hover {
+    box-shadow: 0 20px 45px rgba(0,0,0,0.7);
+}
+
+.film-card.center {
+    transition: transform .15s ease;
+}
