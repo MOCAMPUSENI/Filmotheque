@@ -1,41 +1,258 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Les films</title>
-<!--    <link rel="stylesheet" th:href="@{/css/general.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/css/demo-table.css}">-->
-    <link rel="stylesheet" th:href="@{/css/style-dark-cinema.css}">
-    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
-
+    <title>Films</title>
+    <link rel="stylesheet" href="/css/style-dark-cinema.css">
 </head>
 <body>
     <div data-th-replace="~{fragments/header :: entete}"></div>
+    <div class="film-carousel">
+        <button class="nav-btn left" id="prevBtn">&#10094;</button>
 
-<main>
-<!--        <h1>Les films de L'ENI</h1>-->
+        <!-- containerWidth sera fixé dynamiquement pour n'afficher que 3 cartes -->
+        <div class="carousel-container" id="carouselContainer">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- Thymeleaf: une carte par film -->
+                <div class="film-card"
+                     th:each="film : ${@filmServiceImpl.consulterFilms()}">
+                    <img th:src="@{windows-xp.jpg}" alt="Film">
+                    <div class="film-overlay">
+                        <h3 th:text="${film.titre}"></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <h1 class="center-section">Voici la bibliothèque des Films de ENI Ecole</h1>
-        <table>
-            <thead>
-            <tr>
-                <th>Genre</th>
-                <th>Année</th>
-                <th>Titre</th>
-                <th>Réalisateur</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="film : ${@filmServiceImpl.consulterFilms()}" class="formateur">
-                <td th:if="${film.genreId}" th:text="${@genreServiceImpl.findGenreById(film.genreId).title}"></td>
-                <td th:if="${film.anne}" th:text="${film.anne}"></td>
-                <td th:if="${film.titre}" th:text="${film.titre}"></td>
-                <td th:if="${film.realisateurId}" th:text="${@participantServiceImpl.getParticipantById(film.realisateurId).toString()}"></td>
-                <td><a th:href="@{/films/detail(id=${film.id})}"> Details </a></td>
-            </tr>
-            </tbody>
-        </table>
-    </main>
+        <button class="nav-btn right" id="nextBtn">&#10095;</button>
+    </div>
 </body>
+
+<!-- CSS -->
+<style>
+    .film-carousel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 24px 0;
+        box-sizing: border-box;
+    }
+
+    /* Le container affichera exactement 3 cartes */
+    .carousel-container {
+        overflow: hidden;
+        position: relative;
+        /* width calculée dynamiquement en JS pour garantir 3 cartes visibles */
+    }
+
+    .carousel-track {
+        display: flex;
+        align-items: center;
+        transition: transform 0.6s cubic-bezier(.22,.9,.35,1);
+        will-change: transform;
+    }
+
+    /* Carte */
+    .film-card {
+        width: 260px;
+        height: 380px;
+        flex: 0 0 auto;
+        margin-right: 40px; /* gap entre cartes (dernier aura un gap aussi, ok) */
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        transform-origin: center center;
+        transition: transform 0.45s ease, opacity 0.45s ease;
+        opacity: 0.45;
+        transform: scale(0.82);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        background: #111;
+    }
+
+    /* enlever margin-right du dernier visuel (optionnel) */
+    .film-card.last-gap-fix { margin-right: 0; }
+
+    .film-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Overlays */
+    .film-overlay {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 12px;
+        background: linear-gradient(to top, rgba(0,0,0,.8), transparent);
+        color: #fff;
+    }
+
+    /* états */
+    .film-card.center {
+        transform: scale(1.18);
+        opacity: 1;
+        z-index: 3;
+    }
+
+    .film-card.side {
+        transform: scale(0.94);
+        opacity: 0.8;
+        z-index: 2;
+    }
+
+    /* boutons */
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        font-size: 26px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    }
+
+    .left { left: calc(50% - 480px); }   /* ajustable si tu changes container width */
+    .right { right: calc(50% - 480px); } /* idem - on placera les boutons à l'extérieur */
+    @media (max-width: 1100px) {
+        .left { left: 8px; }
+        .right { right: 8px; }
+    }
+</style>
+
+<!-- JS -->
+<script>
+    (function() {
+        const track = document.getElementById('carouselTrack');
+        const container = document.getElementById('carouselContainer');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+
+        // initial cards (Thymeleaf rendra les cartes ici)
+        let cards = Array.from(track.children);
+
+        if (cards.length === 0) return; // pas de films
+
+        // CONFIG
+        const VISIBLE = 3;                   // exactement 3 visibles
+        const cardComputedStyle = getComputedStyle(cards[0]);
+        const GAP = parseFloat(cardComputedStyle.marginRight) || 40;
+        const CARD_W = cards[0].offsetWidth;
+
+        // régler la largeur du container pour montrer exactement 3 cartes
+        const containerWidth = (CARD_W * VISIBLE) + (GAP * (VISIBLE - 1));
+        container.style.width = containerWidth + 'px';
+
+        // clonage pour l'infini (clone last -> prepend, clone first -> append)
+        track.prepend(cards[cards.length - 1].cloneNode(true));
+        track.append(cards[0].cloneNode(true));
+
+        // re-lire la liste des cartes après clonage
+        cards = Array.from(track.children);
+
+        // calcul du pas (card width + gap)
+        const STEP = CARD_W + GAP;
+
+        // Indice initial : on veut que la carte centrale visible soit index 1 (après le clone prepended)
+        // Structure après clonage: [clone-last, orig0, orig1, ... origN-1, clone-first]
+        let index = 1;
+
+        // helper: calcule translateX pour centrer la carte d'indice `index`
+        function computeTranslateX(i) {
+            // on calcule l'offset vers la gauche à appliquer pour centrer la carte i dans le container
+            // distance du début du track jusqu'au bord gauche de la carte i = i * STEP
+            // pour centrer la carte dans container, on veut que la gauche de la carte soit à:
+            // (containerWidth - CARD_W) / 2
+            const desiredLeft = (containerWidth - CARD_W) / 2;
+            const raw = (i * STEP) - desiredLeft;
+            return -raw;
+        }
+
+        // appliquer position initiale
+        track.style.transform = `translateX(${ computeTranslateX(index) }px)`;
+
+        // classes
+        function updateClasses() {
+            cards.forEach(c => {
+                c.classList.remove('center','side','last-gap-fix');
+            });
+
+            // garantir qu'on applique center/side seulement aux cartes visibles
+            const centerCard = cards[index];
+            if (centerCard) centerCard.classList.add('center');
+
+            if (cards[index - 1]) cards[index - 1].classList.add('side');
+            if (cards[index + 1]) cards[index + 1].classList.add('side');
+
+            // supprime le margin-right du dernier élément visuel pour éviter overflow visuel (optionnel)
+            // trouver la position du dernier visible = index+1 (pour 3 visibles: index-1, index, index+1)
+            const lastVisible = index + 1;
+            if (cards[lastVisible]) cards[lastVisible].classList.add('last-gap-fix');
+        }
+
+        updateClasses();
+
+        // sliding lock
+        let slidingAllowed = true;
+        function slideTo(newIndex) {
+            if (!slidingAllowed) return;
+            slidingAllowed = false;
+
+            index = newIndex;
+            track.style.transition = 'transform 0.6s cubic-bezier(.22,.9,.35,1)';
+            track.style.transform = `translateX(${ computeTranslateX(index) }px)`;
+            updateClasses();
+
+            // à la fin de la transition, si on est sur un clone, on saute sans transition
+            setTimeout(() => {
+                // si on est sur le clone en fin (index == cards.length -1) -> revenir à 1 (premier réel)
+                if (index === cards.length - 1) {
+                    track.style.transition = 'none';
+                    index = 1;
+                    track.style.transform = `translateX(${ computeTranslateX(index) }px)`;
+                    updateClasses();
+                }
+                // si on est sur le clone en début (index == 0) -> revenir à cards.length-2 (dernier réel)
+                if (index === 0) {
+                    track.style.transition = 'none';
+                    index = cards.length - 2;
+                    track.style.transform = `translateX(${ computeTranslateX(index) }px)`;
+                    updateClasses();
+                }
+                // léger timeout pour laisser le navigateur appliquer le transform sans transition
+                setTimeout(() => slidingAllowed = true, 20);
+            }, 620);
+        }
+
+        nextBtn.addEventListener('click', () => slideTo(index + 1));
+        prevBtn.addEventListener('click', () => slideTo(index - 1));
+
+        // Optionnel: navigation clavier (gauche/droite)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') slideTo(index + 1);
+            if (e.key === 'ArrowLeft') slideTo(index - 1);
+        });
+
+        // Resize: recalculer si la taille des cartes change (responsive)
+        window.addEventListener('resize', () => {
+            // recompute sizes (simple approche: reload pour réajuster)
+            // pour robustesse on peut recalculer dynamiquement; ici on force refresh complet
+            // (tu peux remplacer par logique plus douce si besoin)
+            location.reload();
+        });
+    })();
+</script>
+
 </html>

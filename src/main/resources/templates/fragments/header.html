@@ -3,12 +3,13 @@
         <a href="/">FILMOTHÈQUE</a>
     </div>
 
-    <nav class="nav-links">
+    <nav class="nav-links" style="list-style-type: none;">
         <li th:if="${membre != null}"><h1 th:text="${membre.prenom}"></h1></li>
         <li><h2><a th:href="@{/films}">Films</a></h2></li>
         <li><h2><a th:href="@{/films/creer}">Creer</a></h2></li>
         <li><h2><a th:href="@{/genre/creer}">Creer genre</a></h2></li>
         <li><h2><a th:href="@{/membres}">Voir les membres</a></h2></li>
+        <li><h2><a th:href="@{/participants}">Voir les participants</a></h2></li>
     </nav>
 
     <div class="user-area">

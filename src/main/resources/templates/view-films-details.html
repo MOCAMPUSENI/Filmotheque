@@ -1,71 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Detail de film</title>
-<!--    <link rel="stylesheet" th:href="@{/css/general.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/css/demo-form.css}">-->
+    <title>Détails du film</title>
     <link rel="stylesheet" th:href="@{/css/style-dark-cinema.css}">
     <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
 
-</head>
-<body>
-    <div data-th-replace="~{fragments/header :: entete}"></div>
+    <style>
+        /* --- TITRE --- */
+        .film-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-top: 20px;
+            color: #e50914;
+        }
 
-    <main>
-        <body>
-            <form action="/formateurs/detail" method="post">
-                <h1>Details du film</h1>
-                <ul class="flex-outer">
-                    <li><label for="inputGenre">Genre : </label><input id="inputGenre" type="text" name="genre" th:value="${@genreServiceImpl.findGenreById(film.genreId).title}" disabled></li>
-                    <li><label for="inputAnnee">Année : </label><input id="inputAnnee" type="text" name="annee" th:value="${film?.anne}" disabled></li>
-                    <li><label for="inputTitre">Titre : </label><input id="inputTitre" type="text" name="titre" th:value="${film?.titre}" disabled></li>
-                    <li><label for="inputRealisateur">Realisateur : </label><input id="inputRealisateur" type="text" name="realisateur" th:value="${@participantServiceImpl.getParticipantById(film.realisateurId).toString()}" disabled></li>
-                    <li><label for="inputDuree">Durée : </label><input id="inputDuree" type="text" name="duree" th:value="${film?.duree}" disabled></li>
-                    <li th:if="${film.id}"><label>Acteur(s) : </label>
-                        <select multiple disabled>
-                                <option th:each="acteur : ${@participantServiceImpl.getAllParticipantsByFilmId(film.id)}" th:text="${'- ' + acteur.prenom + ' ' + acteur.nom}"></option>
-                        </select>
-                    </li>
-                    <li><label>Synopsis : </label><textarea readonly th:text="${film.synopsis}" disabled></textarea></li>
-                    <th:block th:if="${film.avis}">
-                        <label>Avis :</label>
-                        <ul th:each="a : ${@avisServiceImpl.findAllAvisByFilmId(film.id)}" class="flex-outer">
-                            <li>
-                                <label for="avis" th:text="'Avis de ' + ${@membreServiceImpl.findMembreById(a.membreId).toString()} + ' : '"></label>
-                                <input id="avis" type="text" th:value="${a.commentaire}" disabled>
-                            </li>
-                            <li>
-                                <label for="avisNote">Note :</label>
-                                <input id="avisNote" type="number" th:value="${a.note}" disabled>
-                            </li>
-                        </ul>
-                    </th:block>
-                </ul>
-            </form>
-            <form th:action="@{/avis/creer(idFilm=${film.id})}" method="post">
-                <h1>Laissez un avis sur le film !</h1>
-                <ul class="flex-outer">
-                    <li>
-                        <label for="idMembre">Qui écrit ce commentaire ?</label>
-                        <select id="idMembre" name="idMembre">
-                            <option th:each="m : ${@membreServiceImpl.findAllMembres()}" th:text="${m.prenom + ' ' + m.nom}" th:value="${m.id}"></option>
-                        </select>
-                    </li>
-                    <li>
-                        <label for="commentaire">Commentaire : </label>
-                        <input type="text" name="commentaire" id="commentaire">
-                    </li>
-                    <li>
-                        <label for="note">Note : </label>
-                        <input type="number" name="note" id="note">
-                    </li>
-                    <li>
-                        <input type="submit" th:value="Validez">
-                    </li>
-                </ul>
-            </form>
-        </body>
-    </main>
+        /* --- SECTION INFO --- */
+        .info-panel {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #111;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        .info-panel div {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        /* Bloc noir autour réalisateur & acteurs */
+        .cast-wrapper {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #0d0d0d;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #222;
+        }
+
+        /* Titre dans les blocs */
+        .cast-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Block central qui centre TOUT son contenu */
+        .cast-block {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            padding: 10px 0;
+        }
+
+        /* Cartes acteur/réalisateur */
+        .actor-card {
+            background: #181818;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #333;
+            width: 180px;
+            transition: 0.3s;
+        }
+
+        .actor-card:hover {
+            transform: translateY(-5px);
+            border-color: #e50914;
+        }
+
+        .actor-photo {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .actor-name {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .role-badge {
+            background: #e50914;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 0.8rem;
+        }
+
+        /* --- SYNOPSIS --- */
+        .synopsis-box {
+            max-width: 700px;
+            margin: 20px auto;
+            background: #111;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            line-height: 1.5;
+        }
+
+        /* --- AVIS --- */
+        .avis-card {
+            background: #181818;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            margin-bottom: 15px;
+        }
+
+        .avis-author {
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        /* --- FORMULAIRE AVIS --- */
+        .avis-form {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #111;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        .avis-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .avis-form input, .avis-form select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #555;
+            background: #222;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .avis-form input[type=submit] {
+            background: #e50914;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .avis-form input[type=submit]:hover {
+            background: #b20710;
+        }
+
+        .stars {
+            margin-top: 8px;
+            font-size: 22px;
+        }
+
+        .star {
+            color: #444;        /* étoile vide */
+            margin-right: 3px;
+        }
+
+        .star.filled {
+            color: #e50914;     /* étoile rouge Netflix */
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div data-th-replace="~{fragments/header :: entete}"></div>
+
+<main>
+
+    <!-- ===== TITRE DU FILM ===== -->
+    <h1 class="film-title" th:text="${film.titre}"></h1>
+
+
+    <!-- ===== INFORMATIONS TECHNIQUES ===== -->
+    <section class="info-panel">
+        <div><span class="info-label">Genre :</span> <span th:text="${@genreServiceImpl.findGenreById(film.genreId).title}"></span></div>
+        <div><span class="info-label">Année :</span> <span th:text="${film.anne}"></span></div>
+        <div><span class="info-label">Durée :</span> <span th:text="${film.duree + ' min'}"></span></div>
+    </section>
+
+
+    <!-- ===== RÉALISATEUR + ACTEURS DANS UN BLOC NOIR ===== -->
+    <section class="cast-wrapper">
+
+        <!-- ----- RÉALISATEUR CENTRÉ ----- -->
+        <h2 class="film-title cast-title">Réalisateur</h2>
+
+        <div class="cast-block">
+            <div class="actor-card">
+                <div class="actor-photo">🎬</div>
+                <div class="actor-name"
+                     th:text="${@participantServiceImpl.getParticipantById(film.realisateurId).prenom + ' ' +
+                          @participantServiceImpl.getParticipantById(film.realisateurId).nom}">
+                </div>
+                <div class="role-badge">Réalisateur</div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="cast-wrapper">
+
+        <!-- ----- ACTEURS ----- -->
+        <h2 class="film-title cast-title">Acteurs</h2>
+
+        <div class="cast-block">
+            <div class="actor-card"
+                 th:each="acteur : ${@participantServiceImpl.getAllParticipantsByFilmId(film.id)}">
+                <div class="actor-photo">🎭</div>
+                <div class="actor-name" th:text="${acteur.prenom + ' ' + acteur.nom}"></div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+    <!-- ===== SYNOPSIS ===== -->
+    <section class="synopsis-box">
+        <h2 style="color:#e50914;">Synopsis</h2>
+        <p th:text="${film.synopsis}"></p>
+    </section>
+
+
+    <!-- ===== AVIS ===== -->
+    <section class="synopsis-box">
+        <h2 style="color:#e50914;">Avis</h2>
+
+        <div th:each="a : ${@avisServiceImpl.findAllAvisByFilmId(film.id)}" class="avis-card">
+
+            <div class="avis-author"
+                 th:text="'Avis de ' + ${@membreServiceImpl.findMembreById(a.membreId).prenom} + ' '
+                      + ${@membreServiceImpl.findMembreById(a.membreId).nom}">
+            </div>
+
+            <div th:text="${a.commentaire}"></div>
+
+            <!-- ⭐⭐ ÉTOILES ⭐⭐ -->
+            <div class="stars">
+            <span th:each="i : ${#numbers.sequence(1,5)}"
+                  th:class="${i <= a.note} ? 'star filled' : 'star'">
+                ★
+            </span>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ===== FORMULAIRE AJOUT AVIS ===== -->
+    <form class="avis-form" th:action="@{/avis/creer(idFilm=${film.id})}" method="post">
+
+        <h2 style="color:#e50914; text-align:center;">Laissez un avis</h2>
+
+        <label for="idMembre">Votre nom :</label>
+        <select id="idMembre" name="idMembre">
+            <option th:each="m : ${@membreServiceImpl.findAllMembres()}"
+                    th:value="${m.id}"
+                    th:text="${m.prenom + ' ' + m.nom}">
+            </option>
+        </select>
+
+        <label for="commentaire">Commentaire :</label>
+        <input type="text" name="commentaire" id="commentaire">
+
+        <label for="note">Note :</label>
+        <input type="number" name="note" id="note" min="0" max="5">
+
+        <input type="submit" value="Envoyer">
+    </form>
+
+</main>
 </body>
 </html>
