@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails du membre</title>
+    <link rel="stylesheet" th:href="@{/css/style-dark-cinema.css}">
+    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".synopsis-toggle-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+
+                    const container = btn.closest(".synopsis-container");
+                    const shortText = container.querySelector(".synopsis-short");
+                    const fullText = container.querySelector(".synopsis-full");
+
+                    const isOpen = fullText.style.display === "block";
+
+                    if (isOpen) {
+                        fullText.style.display = "none";
+                        shortText.style.display = "block";
+                        btn.textContent = "Voir plus";
+                    } else {
+                        fullText.style.display = "block";
+                        shortText.style.display = "none";
+                        btn.textContent = "Voir moins";
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+
+<div data-th-replace="~{fragments/header :: entete}"></div>
+
+<main class="cinema-main">
+
+    <section class="cinema-section">
+
+        <h2>Détails du membre</h2>
+
+        <form action="/membres/detail" method="post">
+
+            <div class="context-info">
+                <p><strong>Prénom :</strong>
+                    <span th:text="${participant?.prenom}"></span>
+                </p>
+
+                <p><strong>Nom :</strong>
+                    <span th:text="${participant?.nom}"></span>
+                </p>
+            </div>
+
+            <!-- ==== FILMS ==== -->
+            <h3 style="margin-top:30px; color:white;">Films associés</h3>
+
+            <div class="movie-grid"
+                 th:if="${films.size() > 0}">
+
+                <div class="movie-card" th:each="film : ${films}">
+
+                    <!-- Titre -->
+                    <h3 th:text="${film.titre}"></h3>
+
+                    <!-- Genre -->
+                    <p class="meta">
+                        <strong>Genre :</strong>
+                        <span th:text="${@genreServiceImpl.findGenreById(film.genreId).title}"></span>
+                    </p>
+
+                    <!-- Année -->
+                    <p class="meta">
+                        <strong>Année :</strong>
+                        <span th:text="${film.anne}"></span>
+                    </p>
+
+                    <!-- Réalisateur -->
+                    <p class="meta">
+                        <strong>Réalisateur :</strong>
+                        <span th:text="${@participantServiceImpl.getParticipantById(film.realisateurId).toString()}"></span>
+                    </p>
+
+                    <div class="synopsis-container">
+
+                        <!-- Version abrégée -->
+                        <p class="synopsis-short"
+                           th:text="${#strings.abbreviate(film.synopsis, 150)}"></p>
+
+                        <!-- Version longue -->
+                        <p class="synopsis-full"
+                           th:text="${film.synopsis}"></p>
+
+                        <!-- Bouton Voir plus / Voir moins -->
+                        <button type="button" class="synopsis-toggle-btn">Voir plus</button>
+                    </div>
+
+                    <a class="btn" style="margin-top:15px; display:inline-block;"
+                       th:href="@{/films/detail(id=${film.id})}">
+                        Détails
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- Aucun film -->
+            <p th:if="${@participantServiceImpl.getAllFilmsByParticipant(participant.id).size() == 0}"
+               style="color:#bbb; margin-top:15px;">
+                Aucun film trouvé pour ce membre.
+            </p>
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+</html>

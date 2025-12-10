@@ -10,6 +10,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Controller
 public class FilmController {
     FilmService filmService;
@@ -104,9 +109,29 @@ public class FilmController {
     }
     
     @GetMapping("/membres/detail")
-    public String viewMembres(@RequestParam(name = "id") int id, Model model) {
+    public String viewMembresDetails(@RequestParam(name = "id") int id, Model model) {
         model.addAttribute("membre", membreService.findMembreById(id));
         return "view-membres-details";
+    }
+    
+    @GetMapping("/participants")
+    public String viewParticipants(Model model) {
+        return "view-participants";
+    }
+    
+    @GetMapping("/participant/detail")
+    public String viewParticipantsDetails(@RequestParam(name = "id") int id, Model model) {
+        model.addAttribute("participant", participantService.getParticipantById(id));
+        List<FilmDTO> films = Stream.concat(
+                        filmService.findAllFilmsByRealisateur(id).stream(),
+                        participantService.getAllFilmsByParticipant(id).stream()
+                )
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toMap(FilmDTO::getId, f -> f, (f1, f2) -> f1),
+                        map -> new ArrayList<>(map.values())
+                ));
+        model.addAttribute("films", films);
+        return "view-participants-details";
     }
     
     @PostMapping("/genre/creer")

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Les participants</title>
+    <!--    <link rel="stylesheet" th:href="@{/css/general.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/css/demo-table.css}">-->
+    <link rel="stylesheet" th:href="@{/css/style-dark-cinema.css}">
+    <link rel="shortcut icon" th:href="@{/images/logoENI.png}" type="image/x-icon">
+    <style>
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .participant-card {
+            background: #1c1c1c;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            color: white;
+            text-align: center;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .participant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+        }
+
+        .btn-details {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #ff5252;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background .2s;
+        }
+
+        .btn-details:hover {
+            background: #ff0000;
+        }
+    </style>
+</head>
+<body>
+<div data-th-replace="~{fragments/header :: entete}"></div>
+
+<main>
+    <!--        <h1>Les membres de L'ENI</h1>-->
+
+    <h1 class="center-section">Voici les participants de ENI Ecole</h1>
+    <div class="participants-grid">
+        <div class="participant-card" th:each="participant : ${@participantServiceImpl.getAllParticipants()}">
+            <h2 th:text="${participant.prenom + ' ' + participant.nom}"></h2>
+            <a class="btn-details"
+               th:href="@{/participant/detail(id=${participant.id})}">
+                Voir les détails
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
