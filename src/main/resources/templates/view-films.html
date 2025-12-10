@@ -15,13 +15,16 @@
         <div class="carousel-container" id="carouselContainer">
             <div class="carousel-track" id="carouselTrack">
                 <!-- Thymeleaf: une carte par film -->
-                <div class="film-card"
-                     th:each="film : ${@filmServiceImpl.consulterFilms()}">
-                    <img th:src="@{windows-xp.jpg}" alt="Film">
-                    <div class="film-overlay">
-                        <h3 th:text="${film.titre}"></h3>
+                    <div class="film-card"
+                         th:each="film : ${@filmServiceImpl.consulterFilms()}">
+                        <img th:src="@{windows-xp.jpg}" alt="Film">
+                        <div class="film-overlay">
+                            <a th:href="@{/films/detail(id=${film.id})}">
+                                <h3 th:text="${film.titre}"></h3>
+                            </a>
+                        </div>
+
                     </div>
-                </div>
             </div>
         </div>
 
