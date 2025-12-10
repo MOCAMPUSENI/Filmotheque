@@ -28,6 +28,10 @@ public class FilmServiceImpl implements FilmService{
         return filmRepository.findAllFilms();
     }
     
+    public List<FilmDTO> findAllFilmsByRealisateur(int id) {
+        return filmRepository.findAllFilmsByRealisateur(id);
+    }
+    
     @Override
     public FilmDTO consulterFilmParId(int id) {
         return filmRepository.findFilmById(id);
