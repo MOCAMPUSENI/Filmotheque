@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface FilmRepository {
     List<FilmDTO> findAllFilms();
+    List<FilmDTO> findAllFilmsByRealisateur(int id);
     FilmDTO findFilmById(int id);
     FilmDTO findFilmByName(String name);
     int addFilm(FilmDTO film);
