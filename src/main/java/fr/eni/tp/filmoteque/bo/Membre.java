@@ -11,6 +11,13 @@ public class Membre extends Personne {
     public Membre() {
         super();
     }
+    
+    public Membre(int id, String nom, String prenom, String pseudo, String motDePasse, boolean admin) {
+        super(id, nom, prenom);
+        this.pseudo = pseudo;
+        this.motDePasse = motDePasse;
+        this.admin = admin;
+    }
 
     public Membre(int id, String nom, String prenom, String pseudo, boolean admin) {
         super(id, nom, prenom);
