@@ -2,12 +2,10 @@ package fr.eni.tp.filmoteque.dal;
 
 import fr.eni.tp.filmoteque.bo.Genre;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
