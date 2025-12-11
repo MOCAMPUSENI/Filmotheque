@@ -8,39 +8,37 @@
 
 <body>
 
-<div data-th-replace="~{fragments/header :: entete}"></div>
+    <div data-th-replace="~{fragments/header :: entete}"></div>
 
-<main class="center-main home-hero">
+    <main class="center-main home-hero">
 
-    <!-- Bandeau d’accueil -->
-    <section class="home-header">
-        <h1 class="home-title">Bienvenue dans la Filmothèque de l’ENI</h1>
-        <p class="home-subtitle">Votre catalogue cinématographique — Réalisateurs, acteurs, avis, et plus encore.</p>
+        <!-- Bandeau d’accueil -->
+        <section class="home-header">
+            <h1 class="home-title">Bienvenue dans la Filmothèque de l’ENI</h1>
+            <p class="home-subtitle">Votre catalogue cinématographique — Réalisateurs, acteurs, avis, et plus encore.</p>
 
-        <a href="/films" class="home-main-btn">Voir les films</a>
-    </section>
+            <a href="/films" class="home-main-btn">Voir les films</a>
+        </section>
 
-    <!-- Section présentation -->
-    <section class="home-presentation">
-        <h2>🎬 Découvrez un univers de cinéma</h2>
-        <p>
-            Parcourez les films réalisés par les étudiants de l’ENI,
-            explorez les genres, découvrez les réalisateurs, et trouvez votre prochain coup de cœur.
-        </p>
-    </section>
+        <!-- Section présentation -->
+        <section class="home-presentation">
+            <h2>🎬 Découvrez un univers de cinéma</h2>
+            <p>
+                Parcourez les films réalisés par les étudiants de l’ENI,
+                explorez les genres, découvrez les réalisateurs, et trouvez votre prochain coup de cœur.
+            </p>
+        </section>
 
-    <!-- Section genres -->
-    <section class="home-genres">
-        <h2>📚 Genres disponibles</h2>
+        <!-- Section genres -->
+        <section class="home-genres">
+            <h2>📚 Genres disponibles</h2>
 
-        <div class="genre-list">
-            <div class="genre-card" th:each="g : ${@genreServiceImpl.findAllGenres()}">
-                <p th:text="${g.title}"></p>
+            <div class="genre-list">
+                <div class="genre-card" th:each="g : ${@genreServiceImpl.findAllGenres()}">
+                    <p th:text="${g.title}"></p>
+                </div>
             </div>
-        </div>
-    </section>
-
-</main>
-
+        </section>
+    </main>
 </body>
 </html>
