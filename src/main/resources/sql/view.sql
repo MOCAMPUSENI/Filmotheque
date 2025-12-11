@@ -42,7 +42,7 @@ GO
 
 CREATE VIEW findAllMembres
 AS
-SELECT id, nom, prenom, pseudo, admin
+SELECT id, nom, prenom, pseudo, motDePasse, admin
 FROM membres;
 GO
 
