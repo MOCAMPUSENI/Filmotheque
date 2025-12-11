@@ -7,4 +7,5 @@ import java.util.List;
 public interface MembresRepository {
     List<Membre> findAllMembres();
     Membre findMembreById(int id);
+    Membre findMembreByPseudo(String pseudo);
 }

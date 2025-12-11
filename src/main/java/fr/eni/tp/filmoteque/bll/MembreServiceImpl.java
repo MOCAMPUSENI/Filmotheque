@@ -23,4 +23,6 @@ public class MembreServiceImpl implements MembreService {
     public Membre findMembreById(int id) {
         return membresRepositoryImpl.findMembreById(id);
     }
+    
+    public Membre findMembreByPseudo(String pseudo) { return membresRepositoryImpl.findMembreByPseudo(pseudo); }
 }
