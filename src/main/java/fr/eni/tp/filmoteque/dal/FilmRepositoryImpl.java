@@ -57,22 +57,6 @@ public class FilmRepositoryImpl implements FilmRepository {
             
             return cs.getInt(7);
         });
-        // SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
-        //         .withTableName("films")
-        //         .usingGeneratedKeyColumns("id");
-        //
-        // Map<String, Object> params = Map.of(
-        //         "titre", film.getTitre(),
-        //         "annee", film.getAnne(),
-        //         "duree", film.getDuree(),
-        //         "synopsis", film.getSynopsis(),
-        //         "genreId", film.getGenreId(),
-        //         "realisateurId", film.getRealisateurId()
-        // );
-        //
-        // Number id = insert.executeAndReturnKey(params);
-        //
-        // return id.intValue();
     }
     
     static class FilmRowMapper implements RowMapper<FilmDTO> {
