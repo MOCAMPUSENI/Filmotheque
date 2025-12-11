@@ -4,6 +4,8 @@ import fr.eni.tp.filmoteque.bll.*;
 import fr.eni.tp.filmoteque.bo.*;
 import fr.eni.tp.filmoteque.dto.FilmDTO;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -150,5 +152,22 @@ public class FilmController {
     public String modifierGenre(@ModelAttribute Genre genre) {
         genreService.updateGenre(genre.getTitle(), genre.getId());
         return "redirect:/genre/creer";
+    }
+    
+    @GetMapping({"/", "/home"})
+    public String home() {
+        return "accueil";
+    }
+    
+    @GetMapping("/login")
+    public String login() {
+        return "view-login";
+    }
+    
+    @GetMapping("/profile")
+    public String profile(@AuthenticationPrincipal UserDetails user, Model model) {
+        Membre membre = membreService.findMembreByPseudo(user.getUsername());
+        model.addAttribute("membre", membre);
+        return "view-profile";
     }
 }
