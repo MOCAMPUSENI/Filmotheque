@@ -135,17 +135,22 @@ INSERT INTO acteurs (filmId, participantId) VALUES (6, 6);  -- Oscar Isaac
 -- ===========================
 -- MEMBRES
 -- ===========================
-INSERT INTO membres (nom, prenom, pseudo, admin)
-VALUES ('admin', 'istrateur', 'admin123', 1);
+-- INSERT INTO membres (nom, prenom, pseudo, admin)
+-- VALUES ('admin', 'istrateur', 'admin123', 1);
+--
+-- INSERT INTO membres (nom, prenom, pseudo, admin)
+-- VALUES ('Baille', 'Anne-Lise', 'abaille@campus-eni.fr', 0);
+--
+-- INSERT INTO membres (nom, prenom, pseudo, admin)
+-- VALUES ('Gobin', 'Stéphane', 'sgobin@campus-eni.fr', 0);
+--
+-- INSERT INTO membres (nom, prenom, pseudo, admin)
+-- VALUES ('Trillard', 'Julien', 'jtrillard@campus-eni.fr', 0);
 
-INSERT INTO membres (nom, prenom, pseudo, admin)
-VALUES ('Baille', 'Anne-Lise', 'abaille@campus-eni.fr', 0);
-
-INSERT INTO membres (nom, prenom, pseudo, admin)
-VALUES ('Gobin', 'Stéphane', 'sgobin@campus-eni.fr', 0);
-
-INSERT INTO membres (nom, prenom, pseudo, admin)
-VALUES ('Trillard', 'Julien', 'jtrillard@campus-eni.fr', 0);
+INSERT INTO Membres(nom, prenom, pseudo, motDePasse, admin)
+VALUES ('Baille', 'Anne-Lise', 'abaille@campus-eni.fr', '{bcrypt}$2a$10$AlkMnhWSci6w0X37HmUwpu54TSghez9Vqbfue3YcQuJjmJRO7Le8q', 1),
+       ('Gobin', 'Stéphane', 'sgobin@campus-eni.fr', '{bcrypt}$2a$10$.hthVZ3RWLvIdb.eNU.oD.LCQEgslY5QL7FtYb0Jk1x/j/5jBzB6O', 0),
+       ('Trillard', 'Julien', 'jtrillard@campus-eni.fr', '{bcrypt}$2a$10$5xPTDvC9Raeslp0TAAZ82OBDHA0wOzWjohHVsGFnXbsJDpU.kvxEW', 0) ;
 
 -- ===========================
 -- AVIS (liés aux membres)
