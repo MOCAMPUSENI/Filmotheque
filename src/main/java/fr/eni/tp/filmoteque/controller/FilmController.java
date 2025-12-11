@@ -62,7 +62,6 @@ public class FilmController {
                 participantService.addParticipantToFilm(acteurId, filmId);
             });
             return "redirect:/films/detail?id=" + filmId;
-            // return "redirect:/films/creer";
         }
         redirectAttr.addFlashAttribute("org.springframework.validation.BindingResult.filmDTO", result);
         redirectAttr.addFlashAttribute("filmDTO", filmDTO);
