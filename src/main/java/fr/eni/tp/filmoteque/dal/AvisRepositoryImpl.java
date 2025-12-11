@@ -59,7 +59,5 @@ public class AvisRepositoryImpl implements AvisRepository {
             cs.setInt(4, avis.getFilmId());
             return cs;
         });
-        // String sql = "INSERT INTO avis VALUES (?, ?, ?, ?)";
-        // jdbcTemplate.update(sql, avis.getNote(), avis.getCommentaire(), avis.getMembreId(), avis.getFilmId());
     }
 }
