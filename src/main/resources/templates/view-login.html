@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/style-dark-cinema.css}">
+    <style>
+        /* ==== PAGE STYLE (Netflix dark style) ==== */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #141414;
+            font-family: "Roboto", sans-serif;
+            color: #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* ==== LOGIN CARD ==== */
+        .login-container {
+            background: #1c1c1c;
+            padding: 40px 45px;
+            border-radius: 10px;
+            width: 380px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.45);
+            border: 1px solid #e50914;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-title {
+            text-align: center;
+            color: #e50914;
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+
+        /* ==== FORM FIELDS ==== */
+        .login-container label {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: block;
+            color: #fff;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: #2a2a2a;
+            color: #fff;
+            margin-top: 5px;
+            margin-bottom: 18px;
+            font-size: 1rem;
+            transition: 0.25s;
+        }
+
+        .login-container input:focus {
+            border-color: #e50914;
+            outline: none;
+            box-shadow: 0 0 6px rgba(229, 9, 20, 0.4);
+        }
+
+        /* ==== SUBMIT BUTTON ==== */
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #e50914;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .login-btn:hover {
+            background: #ff0a16;
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+        }
+
+        /* ==== MESSAGES ==== */
+        .login-msg {
+            background: #900;
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #e50914;
+            text-align: center;
+        }
+
+        .logout-msg {
+            background: #0a7d00;
+            border: 1px solid #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+
+        <h1 class="login-title">Connexion</h1>
+
+        <div th:if="${param.error}" class="login-msg">
+            Identifiant ou mot de passe incorrect.
+        </div>
+
+        <div th:if="${param.logout}" class="login-msg logout-msg">
+            Vous avez été déconnecté.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+
+            <label for="username">Nom d'utilisateur</label>
+            <input id="username" type="text" name="username" required>
+
+            <label for="password">Mot de passe</label>
+            <input id="password" type="password" name="password" required>
+
+            <button type="submit" class="login-btn">Se connecter</button>
+
+        </form>
+
+    </div>
+</body>
+</html>
