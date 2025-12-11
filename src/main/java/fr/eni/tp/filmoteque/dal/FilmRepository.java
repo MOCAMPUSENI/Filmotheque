@@ -1,6 +1,5 @@
 package fr.eni.tp.filmoteque.dal;
 
-import fr.eni.tp.filmoteque.bo.Film;
 import fr.eni.tp.filmoteque.dto.FilmDTO;
 
 import java.util.List;
