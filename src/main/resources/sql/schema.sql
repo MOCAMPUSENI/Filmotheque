@@ -38,13 +38,13 @@ CREATE TABLE acteurs (
 ALTER TABLE acteurs ADD CONSTRAINT fk_acteurs_film FOREIGN KEY(filmId) REFERENCES films(id);
 ALTER TABLE acteurs ADD CONSTRAINT fk_acteurs_participant FOREIGN KEY(participantId) REFERENCES participants(id);
 
-CREATE TABLE membres (
-                         id INT IDENTITY(1,1) PRIMARY KEY,
-                         nom NVARCHAR(100) NOT NULL,
-                         prenom NVARCHAR(100) NOT NULL,
-                         pseudo NVARCHAR(100) NOT NULL,
-                         admin BIT NOT NULL
-);
+CREATE TABLE membres(
+                        id INT IDENTITY(1,1) PRIMARY KEY,
+                        prenom VARCHAR(50) NOT NULL,
+                        nom VARCHAR(50) NOT NULL,
+                        pseudo VARCHAR(50) NOT NULL UNIQUE,
+                        motDePasse VARCHAR(200) NOT NULL,
+                        admin BIT NOT NULL);
 
 CREATE TABLE avis (
                       id INT IDENTITY(1,1) PRIMARY KEY,
@@ -56,3 +56,4 @@ CREATE TABLE avis (
 
 ALTER TABLE avis ADD CONSTRAINT fk_avis_membre FOREIGN KEY(membreId) REFERENCES membres(id);
 ALTER TABLE avis ADD CONSTRAINT fk_avis_film FOREIGN KEY(filmId) REFERENCES films(id);
+
