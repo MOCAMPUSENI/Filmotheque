@@ -1,8 +1,6 @@
 package fr.eni.tp.filmoteque.dto;
 
 import fr.eni.tp.filmoteque.bo.Avis;
-import fr.eni.tp.filmoteque.bo.Genre;
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
