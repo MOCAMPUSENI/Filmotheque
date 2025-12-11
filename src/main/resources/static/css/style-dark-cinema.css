@@ -870,3 +870,78 @@ footer {
 .film-card.center {
     transition: transform .15s ease;
 }
+
+/* ============================
+   HEADER POLISHED
+   ============================ */
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-links li h1 {
+    font-size: 1.2rem;
+    color: #e50914;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-logged {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Texte Bonjour, utilisateur */
+.user-greet {
+    color: #e5e5e5;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+/* Bouton Connexion */
+.btn-login,
+.btn-profile,
+.btn-logout {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid #e50914;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: 0.25s ease;
+}
+
+/* Hover */
+.btn-login:hover,
+.btn-profile:hover,
+.btn-logout:hover {
+    background: #e50914;
+    cursor: pointer;
+}
+
+/* Logout ressemble à un lien stylé */
+.logout-form {
+    margin: 0;
+    padding: 0;
+}
+
+.btn-logout {
+    background: transparent;
+    border: 1px solid #e50914;
+}
+
+/* Pour enlever le style global des forms UNIQUEMENT dans le header */
+.cinema-header form {
+    background: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+
