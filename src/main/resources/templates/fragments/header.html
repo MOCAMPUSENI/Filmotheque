@@ -1,18 +1,48 @@
 <header class="cinema-header" data-th-fragment="entete">
+
+    <!-- Logo -->
     <div class="logo">
         <a href="/">FILMOTHÈQUE</a>
     </div>
 
-    <nav class="nav-links" style="list-style-type: none;">
-        <li th:if="${membre != null}"><h1 th:text="${membre.prenom}"></h1></li>
-        <li><h2><a th:href="@{/films}">Films</a></h2></li>
-        <li><h2><a th:href="@{/films/creer}">Creer</a></h2></li>
-        <li><h2><a th:href="@{/genre/creer}">Creer genre</a></h2></li>
-        <li><h2><a th:href="@{/membres}">Voir les membres</a></h2></li>
-        <li><h2><a th:href="@{/participants}">Voir les participants</a></h2></li>
+    <!-- Navigation -->
+    <nav>
+        <ul class="nav-links">
+            <li th:if="${membre != null}">
+                <h1 th:text="${membre.prenom}"></h1>
+            </li>
+
+            <li><a th:href="@{/films}">Films</a></li>
+            <li><a th:href="@{/films/creer}">Créer</a></li>
+            <li><a th:href="@{/genre/creer}">Créer genre</a></li>
+            <li><a th:href="@{/membres}">Membres</a></li>
+            <li><a th:href="@{/participants}">Participants</a></li>
+        </ul>
     </nav>
 
+    <!-- Zone utilisateur -->
     <div class="user-area">
-        <a th:href="@{/contexte}" class="btn-login">Connexion</a></h2>
+
+        <!-- Si pas connecté -->
+        <div sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="btn-login">Connexion</a>
+        </div>
+
+        <!-- Si connecté -->
+        <div sec:authorize="isAuthenticated()" class="user-logged">
+
+            <span class="user-greet">
+                Bonjour, <span sec:authentication="name"></span>
+            </span>
+
+            <!-- Logout button -->
+            <form th:action="@{/logout}" method="post" class="logout-form">
+                <button type="submit" class="btn-logout">Déconnexion</button>
+            </form>
+
+            <a class="btn-profile" th:href="@{/profile}">Profil</a>
+        </div>
+
     </div>
+
 </header>
