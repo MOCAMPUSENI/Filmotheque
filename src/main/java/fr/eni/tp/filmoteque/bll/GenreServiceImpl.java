@@ -2,7 +2,6 @@ package fr.eni.tp.filmoteque.bll;
 
 import fr.eni.tp.filmoteque.bo.Genre;
 import fr.eni.tp.filmoteque.dal.GenreRepository;
-import fr.eni.tp.filmoteque.dal.GenreRepositoryImpl;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
